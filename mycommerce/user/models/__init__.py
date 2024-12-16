@@ -1,1 +1,1 @@
-from .user import AccountManager, Account
+from .user_model import AccountManager, Account
