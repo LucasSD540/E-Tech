@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
 export const ProductSectionDiv = styled.div`
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: ${(props) =>
+      props.promo ? "var(--secondary-color)" : "var(--third-text-color)"};
+  }
+
   .container {
     padding: 32px 0 48px 0;
 

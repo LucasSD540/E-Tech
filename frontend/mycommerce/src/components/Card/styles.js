@@ -4,7 +4,7 @@ export const CardDiv = styled.div`
   height: 260px;
   max-width: 200px;
   width: 100%;
-  background-color: #f5f5f5;
+  background-color: var(--card-background-color);
   border-radius: 10px;
 
   .product-info {
@@ -48,7 +48,7 @@ export const CardDiv = styled.div`
   .product-oldPrice {
     display: ${(props) => (props.promo ? "block" : "none")};
     font-size: 12px;
-    color: #a7a7a7;
+    color: var(--secondary-text-color);
   }
 
   .product-price {
@@ -71,13 +71,13 @@ export const CardDiv = styled.div`
     }
 
     .btn-1 {
-      background-color: #1a73e8;
+      background-color: var(--btn-blue-color);
       color: #fff;
     }
 
     .btn-2 {
-      background-color: #dddddd;
-      color: #000;
+      background-color: var(--btn-gray-color);
+      color: var(--third-text-color);
     }
   }
 `;

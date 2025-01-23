@@ -3,7 +3,6 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Card } from "../Card";
-import "./styles.css";
 
 export const ProductCarousel = ({ promo }) => {
   return (

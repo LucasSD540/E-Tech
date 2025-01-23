@@ -4,8 +4,8 @@ export const FooterDiv = styled.div`
   width: 100%;
   height: 150px;
   padding: 24px;
-  background-color: #2e3a59;
-  color: #fff;
+  background-color: var(--primary-color);
+  color: var(--background-color);
   text-align: center;
 
   nav {

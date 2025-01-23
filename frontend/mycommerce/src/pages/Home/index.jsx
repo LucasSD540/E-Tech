@@ -1,5 +1,5 @@
 import banner from "../../utils/images/banner.png";
-import { ProductSection } from "../ProductSection";
+import { ProductSection } from "../../components/ProductSection";
 import * as S from "./styles";
 
 export const Home = () => {
