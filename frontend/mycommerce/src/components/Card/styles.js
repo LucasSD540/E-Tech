@@ -7,6 +7,19 @@ export const CardDiv = styled.div`
   background-color: var(--card-background-color);
   border-radius: 10px;
 
+  .product-img-div {
+    position: relative;
+  }
+
+  .favorite-icon {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+  }
+
   .product-info {
     padding: 0px 12px 8px 12px;
     position: relative;
