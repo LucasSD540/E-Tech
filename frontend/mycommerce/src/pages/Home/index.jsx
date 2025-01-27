@@ -1,4 +1,4 @@
-import banner from "../../utils/images/banner.png";
+import banner from "../../assets/images/banner.png";
 import { ProductSection } from "../../components/ProductSection";
 import * as S from "./styles";
 

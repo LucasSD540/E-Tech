@@ -1,10 +1,10 @@
 import { useState } from "react";
-import favorite_red_outline from "../../utils/images/favorite_red_outline.png";
-import favorite_blue_outline from "../../utils/images/favorite_blue_outline.png";
-import favorite_red from "../../utils/images/favorite_red.png";
-import favorite_blue from "../../utils/images/favorite_blue.png";
-import product from "../../utils/images/product.png";
-import promo_icon from "../../utils/images/promo_icon.png";
+import favorite_red_outline from "../../assets/images/favorite_red_outline.png";
+import favorite_blue_outline from "../../assets/images/favorite_blue_outline.png";
+import favorite_red from "../../assets/images/favorite_red.png";
+import favorite_blue from "../../assets/images/favorite_blue.png";
+import product from "../../assets/images/product.png";
+import promo_icon from "../../assets/images/promo_icon.png";
 import * as S from "./styles";
 
 export const Card = ({ promo }) => {

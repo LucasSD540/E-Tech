@@ -1,6 +1,6 @@
-import security from "../../utils/images/security.png";
-import note from "../../utils/images/note.png";
-import telephone from "../../utils/images/telephone.png";
+import security from "../../assets/images/security.png";
+import note from "../../assets/images/note.png";
+import telephone from "../../assets/images/telephone.png";
 import * as S from "./styles";
 
 export const Footer = () => {

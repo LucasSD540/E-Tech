@@ -1,4 +1,4 @@
-import discount from "../../utils/images/discount.png";
+import discount from "../../assets/images/discount.png";
 import { ProductCarousel } from "../Slider/Slider";
 import * as S from "./styles";
 

@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import logo from "../../utils/images/logo.png";
+import logo from "../../assets/images/logo.png";
 import * as S from "./styles";
 
 export const Header = () => {
   const [popUp, setPopUp] = useState(false);
   const [entry, setEntry] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname.includes("account-detail")) {
+    if (
+      location.pathname.includes("account-detail") ||
+      location.pathname.includes("login")
+    ) {
       setEntry(true);
     } else {
       setEntry(false);
@@ -40,20 +44,28 @@ export const Header = () => {
             className={`${entry ? "active-link" : ""} link-item center`}
             onClick={() => handlePopUp()}
           >
-            Entrar
-            {popUp && (
-              <div className="popUp-div">
-                <li className="link-item first">
-                  <NavLink className="link" to="/account-detail">
-                    Dados da conta
-                  </NavLink>
-                </li>
-                <li className="link-item second">
-                  <NavLink className="link" to="/">
-                    Sair da conta
-                  </NavLink>
-                </li>
-              </div>
+            {isLoggedIn ? (
+              <>
+                <p>Conta</p>
+                {popUp && (
+                  <div className="popUp-div">
+                    <li className="link-item first">
+                      <NavLink className="link" to="/account-detail">
+                        Dados da conta
+                      </NavLink>
+                    </li>
+                    <li className="link-item second">
+                      <NavLink className="link" to="/">
+                        Sair da conta
+                      </NavLink>
+                    </li>
+                  </div>
+                )}
+              </>
+            ) : (
+              <NavLink className="link-item" to="/login">
+                Entrar
+              </NavLink>
             )}
           </li>
           <NavLink
