@@ -7,6 +7,7 @@ class Product(models.Model):
   stock = models.PositiveIntegerField(default=0)
   image_url = models.URLField(max_length=500, blank=True, null=True)
   category = models.CharField(max_length=50, blank=True, null=True)
+  isPromo = models.BooleanField(default=False)
   created_at = models.DateField(auto_now_add=True)
   updated_at = models.DateField(auto_now=True)
 
