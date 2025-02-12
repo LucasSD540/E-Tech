@@ -9,6 +9,10 @@ export const CardDiv = styled.div`
 
   .product-img-div {
     position: relative;
+
+    .product-img {
+      border-radius: 10px;
+    }
   }
 
   .favorite-icon {
@@ -84,7 +88,8 @@ export const CardDiv = styled.div`
     }
 
     .btn-1 {
-      background-color: var(--btn-blue-color);
+      background-color: ${(props) =>
+        props.promo ? "var(--btn-red-color)" : "var(--btn-blue-color)"};
       color: #fff;
     }
 

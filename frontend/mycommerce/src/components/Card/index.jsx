@@ -34,10 +34,12 @@ export const Card = ({ promo, name, price, imageUrl, category }) => {
       </div>
       <div className="product-info">
         <h3 className="product-title">{name}</h3>
-        <div className="discount-flag">
-          <img src={promo_icon} alt="" />
-          <p>10%</p>
-        </div>
+        {promo && (
+          <div className="discount-flag">
+            <img src={promo_icon} alt="" />
+            <p>10%</p>
+          </div>
+        )}
         <p className="product-category">{category}</p>
         <p className="product-oldPrice">
           <s>R$ 2199,90</s>
