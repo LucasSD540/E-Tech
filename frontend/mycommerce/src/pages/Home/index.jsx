@@ -1,27 +1,23 @@
+import { useFetchCategoryQuery } from "../../services/categoryApi";
 import banner from "../../assets/images/banner.png";
 import { ProductSection } from "../../components/ProductSection";
 import * as S from "./styles";
 
 export const Home = () => {
+  const { data: categoryData = [] } = useFetchCategoryQuery({});
+
   return (
     <S.HomeDiv>
       <img src={banner} alt="banner-image" />
-      <ProductSection
-        children="Ofertas imperdíveis"
-        promo={true}
-        textColor="#E63946"
-        titleSize="32px"
-      />
-      <ProductSection
-        children="Eletrônicos"
-        promo={false}
-        textColor="#2E3A59"
-      />
-      <ProductSection
-        children="Eletrodomésticos"
-        promo={false}
-        textColor="#2E3A59"
-      />
+      {categoryData.map((category, index) => (
+        <ProductSection
+          key={index}
+          category={category}
+          children={category.name}
+          promo={false}
+          textColor="#2E3A59"
+        />
+      ))}
     </S.HomeDiv>
   );
 };
