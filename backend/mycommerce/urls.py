@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from user.viewsets import CookieTokenObtainPairView
+from user.views import CookieTokenObtainPairView
 from rest_framework_simplejwt.views import TokenRefreshView
 from .views import home_page_view
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
@@ -16,5 +16,5 @@ urlpatterns = [
     path('api/user/', include('user.urls')),
     path('api/product/', include('product.urls')),
     path('api/order/', include('order.urls')),
-    path('api/orderItem/', include('orderItem.urls')),
+    path('api/category/', include('category.urls')),
 ]
