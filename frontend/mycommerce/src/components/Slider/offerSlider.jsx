@@ -7,7 +7,7 @@ import { Card } from "../Card";
 import loading_card from "../../assets/images/loading_card.png";
 import "./styles.css";
 
-export const ProductCarousel = ({ categoryId }) => {
+export const OfferProductCarousel = () => {
   const {
     data: productsData = [],
     isLoading,
@@ -29,8 +29,8 @@ export const ProductCarousel = ({ categoryId }) => {
     return name.length > 16 ? name.slice(0, 16) + "..." : name;
   };
 
-  const filteredProducts = productsData.filter(
-    (product) => Number(product.category) === Number(categoryId)
+  const offerProducts = productsData.filter(
+    (product) => product.old_price > product.price
   );
 
   return (
@@ -40,7 +40,7 @@ export const ProductCarousel = ({ categoryId }) => {
       navigation
       modules={[Navigation]}
     >
-      {filteredProducts.map((product, index) => (
+      {offerProducts.map((product, index) => (
         <SwiperSlide key={index}>
           <Card
             key={index}

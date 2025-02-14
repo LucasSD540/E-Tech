@@ -3,8 +3,7 @@ import styled from "styled-components";
 export const ProductSectionDiv = styled.div`
   .swiper-button-next,
   .swiper-button-prev {
-    color: ${(props) =>
-      props.promo ? "var(--secondary-color)" : "var(--third-text-color)"};
+    color: var(--third-text-color);
   }
 
   .container {
@@ -16,13 +15,12 @@ export const ProductSectionDiv = styled.div`
       align-items: center;
 
       h2 {
-        font-size: ${(props) => props.titleSize || "30px"};
+        font-size: ${(props) => props.titleSize};
         color: ${(props) => props.textColor};
         margin-right: 4px;
       }
 
       img {
-        display: ${(props) => (props.promo ? "block" : "none")};
         height: 32px;
         width: 32px;
       }

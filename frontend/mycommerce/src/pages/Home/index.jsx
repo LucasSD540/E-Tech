@@ -2,6 +2,7 @@ import { useFetchCategoryQuery } from "../../services/categoryApi";
 import banner from "../../assets/images/banner.png";
 import { ProductSection } from "../../components/ProductSection";
 import * as S from "./styles";
+import { OfferSection } from "../../components/OfferSection";
 
 export const Home = () => {
   const { data: categoryData = [] } = useFetchCategoryQuery({});
@@ -9,6 +10,7 @@ export const Home = () => {
   return (
     <S.HomeDiv>
       <img src={banner} alt="banner-image" />
+      <OfferSection />
       {categoryData.map((category, index) => (
         <ProductSection
           key={index}

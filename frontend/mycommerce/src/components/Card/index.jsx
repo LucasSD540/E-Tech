@@ -6,7 +6,7 @@ import favorite_blue from "../../assets/images/favorite_blue.png";
 import promo_icon from "../../assets/images/promo_icon.png";
 import * as S from "./styles";
 
-export const Card = ({ promo, name, price, imageUrl, category }) => {
+export const Card = ({ promo, name, oldPrice, price, imageUrl, category }) => {
   const [favorite, setFavorite] = useState(false);
 
   const handleFavorite = () => {
@@ -42,9 +42,9 @@ export const Card = ({ promo, name, price, imageUrl, category }) => {
         )}
         <p className="product-category">{category}</p>
         <p className="product-oldPrice">
-          <s>R$ 2199,90</s>
+          <s>R$ {oldPrice}</s>
         </p>
-        <p className="product-price">{price}</p>
+        <p className="product-price">R$ {price}</p>
         <div className="buttons">
           <button className="btn btn-1">Comprar</button>
           <button className="btn btn-2">Carrinho</button>

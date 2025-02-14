@@ -21,7 +21,6 @@ class CategorySerializer(serializers.ModelSerializer):
         "price": product.price,
         "stock": product.stock,
         "image_url": product.image_url,
-        "isPromo": product.isPromo,
       }
       for product in obj.product_category.all()
     ]

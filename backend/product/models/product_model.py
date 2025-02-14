@@ -5,6 +5,7 @@ class Product(models.Model):
   
   name = models.CharField(max_length=255)
   description = models.TextField()
+  old_price = models.DecimalField(max_digits=10, decimal_places=2, default=00.00)
   price = models.DecimalField(max_digits=10, decimal_places=2)
   stock = models.PositiveIntegerField(default=0)
   image_url = models.URLField(max_length=500, blank=True, null=True)
@@ -15,7 +16,6 @@ class Product(models.Model):
     blank=True,
     related_name='product_category'
   )
-  isPromo = models.BooleanField(default=False)
   created_at = models.DateField(auto_now_add=True)
   updated_at = models.DateField(auto_now=True)
 
