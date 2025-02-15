@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { changeProductId } from "../../store/slices/productIdSlice";
 import favorite_red_outline from "../../assets/images/favorite_red_outline.png";
 import favorite_blue_outline from "../../assets/images/favorite_blue_outline.png";
 import favorite_red from "../../assets/images/favorite_red.png";
@@ -6,11 +9,32 @@ import favorite_blue from "../../assets/images/favorite_blue.png";
 import promo_icon from "../../assets/images/promo_icon.png";
 import * as S from "./styles";
 
-export const Card = ({ promo, name, oldPrice, price, imageUrl, category }) => {
+export const Card = ({
+  promo,
+  name,
+  discount,
+  oldPrice,
+  price,
+  imageUrl,
+  category,
+  cardProductId,
+}) => {
+  const dispatch = useDispatch();
   const [favorite, setFavorite] = useState(false);
+
+  const handleSetProductId = () => {
+    dispatch(changeProductId(cardProductId));
+  };
 
   const handleFavorite = () => {
     setFavorite((prevFavorite) => !prevFavorite);
+  };
+
+  const formatPrice = (preco = 0) => {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(preco);
   };
 
   return (
@@ -37,17 +61,25 @@ export const Card = ({ promo, name, oldPrice, price, imageUrl, category }) => {
         {promo && (
           <div className="discount-flag">
             <img src={promo_icon} alt="" />
-            <p>10%</p>
+            <p>{discount}%</p>
           </div>
         )}
         <p className="product-category">{category}</p>
         <p className="product-oldPrice">
-          <s>R$ {oldPrice}</s>
+          <s>{formatPrice(oldPrice)}</s>
         </p>
-        <p className="product-price">R$ {price}</p>
+        <p className="product-price">{formatPrice(price)}</p>
         <div className="buttons">
-          <button className="btn btn-1">Comprar</button>
-          <button className="btn btn-2">Carrinho</button>
+          <Link to="/" className="btn btn-1">
+            Comprar
+          </Link>
+          <Link
+            onClick={handleSetProductId}
+            to={`/product-detail/${cardProductId}`}
+            className="btn btn-2"
+          >
+            Detalhes
+          </Link>
         </div>
       </div>
     </S.CardDiv>

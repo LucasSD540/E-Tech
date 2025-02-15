@@ -7,7 +7,10 @@ export const productApi = createApi({
     fetchProduct: builder.query({
       query: () => "product/list/",
     }),
+    fetchDetailProduct: builder.query({
+      query: (id) => `product/detail/${id}`,
+    }),
   }),
 });
 
-export const { useFetchProductQuery } = productApi;
+export const { useFetchProductQuery, useFetchDetailProductQuery } = productApi;

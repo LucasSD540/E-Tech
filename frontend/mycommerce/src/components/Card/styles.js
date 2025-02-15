@@ -85,6 +85,10 @@ export const CardDiv = styled.div`
       height: 30px;
       width: 80px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
     }
 
     .btn-1 {

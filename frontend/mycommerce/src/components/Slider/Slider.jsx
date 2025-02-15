@@ -33,6 +33,10 @@ export const ProductCarousel = ({ categoryId }) => {
     (product) => Number(product.category) === Number(categoryId)
   );
 
+  const discountFormated = ({ old_price, price }) => {
+    return (((old_price - price) / old_price) * 100).toFixed(0);
+  };
+
   return (
     <Swiper
       slidesPerView={4}
@@ -44,8 +48,13 @@ export const ProductCarousel = ({ categoryId }) => {
         <SwiperSlide key={index}>
           <Card
             key={index}
+            cardProductId={product.id}
             promo={product.old_price > product.price}
             name={formatProductName(product.name)}
+            discount={discountFormated({
+              old_price: product.old_price,
+              price: product.price,
+            })}
             oldPrice={product.old_price}
             price={product.price}
             imageUrl={product.image_url}
