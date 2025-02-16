@@ -76,7 +76,7 @@ export const CartDiv = styled.div`
     max-width: 250px;
     width: 100%;
     height: 45px;
-    background: linear-gradient(90deg, #1a73e8, #0045a0);
+    background: linear-gradient(45deg, #1a73e8, #0058cc);
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -84,7 +84,7 @@ export const CartDiv = styled.div`
     cursor: pointer;
 
     &:hover {
-      background: linear-gradient(90deg, #0045a0, #1a73e8);
+      background: linear-gradient(45deg, #0058cc, #1a73e8);
     }
   }
 `;

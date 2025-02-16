@@ -47,7 +47,7 @@ export const LoginDiv = styled.div`
     height: 50px;
     border: none;
     box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.75);
-    background: linear-gradient(45deg, #1a73e8, #0045a0);
+    background: linear-gradient(45deg, #1a73e8, #0058cc);
     color: var(--background-color);
     font-size: 24px;
     font-weight: bold;
@@ -55,7 +55,7 @@ export const LoginDiv = styled.div`
     cursor: pointer;
 
     &:hover {
-      background: linear-gradient(45deg, #0045a0, #1a73e8);
+      background: linear-gradient(45deg, #0058cc, #1a73e8);
     }
   }
 
