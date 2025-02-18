@@ -8,6 +8,11 @@ class OrderCreateView(generics.ListCreateAPIView):
   serializer_class = OrderSerializer
   permission_classes = [AllowAny]
 
+  def perform_create(self, serializer):
+    instance = serializer.save()
+    instance.total_price = (instance.price - instance.discount) * instance.quantity
+    instance.save()
+
 class OrderListView(generics.ListAPIView):
   queryset = Order.objects.all()
   serializer_class = OrderSerializer
@@ -22,6 +27,11 @@ class OrderUpdateView(generics.UpdateAPIView):
   queryset = Order.objects.all()
   serializer_class = OrderSerializer
   permission_classes = [IsAuthenticated]
+
+  def perform_update(self, serializer):
+    instance = serializer.save()
+    instance.total_price = (instance.price - instance.discount) * instance.quantity
+    instance.save()
 
 class OrderDeleteView(generics.DestroyAPIView):
   queryset = Order.objects.all()
