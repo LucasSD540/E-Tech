@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import * as S from "./styles";
@@ -6,7 +7,8 @@ import * as S from "./styles";
 export const Header = () => {
   const [popUp, setPopUp] = useState(false);
   const [entry, setEntry] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const isLoggedIn = useSelector((state) => state.isLoggedIn.isLoggedIn);
 
   const location = useLocation();
 

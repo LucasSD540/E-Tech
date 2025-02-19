@@ -1,2 +1,2 @@
 from .user_view import UserCreateView, UserListView, UserDetailView, UserUpdateView, UserDeleteView
-from .auth_view import CookieTokenObtainPairView
+from .auth_view import CookieTokenObtainPairView, LogoutView
