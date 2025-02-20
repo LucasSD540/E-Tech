@@ -2,16 +2,19 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { changeIsLoggedIn } from "../../store/slices/loginSlice";
-import { useLoginMutation } from "../../services/authApi";
+import { useLoginMutation, useRegisterMutation } from "../../services/authApi";
 import back from "../../assets/images/back_icon.png";
 import * as S from "./styles";
 
 export const Login = () => {
+  const [first_name, setFirst_name] = useState("");
+  const [last_name, setLast_name] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
   const [login] = useLoginMutation();
+  const [register] = useRegisterMutation();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,6 +24,20 @@ export const Login = () => {
       dispatch(changeIsLoggedIn(true));
     } catch (err) {
       alert("Erro ao fazer login!");
+    }
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      await register({ first_name, last_name, email, password }).unwrap();
+      alert("Usuário cadastrado com sucesso!");
+    } catch (err) {
+      if (err.status === 400 && err.data?.email) {
+        alert("Este e-mail já está em uso. Tente outro.");
+      } else {
+        alert("Erro ao fazer cadastro! Verifique os dados e tente novamente.");
+      }
     }
   };
 
@@ -52,22 +69,43 @@ export const Login = () => {
         </form>
       </div>
       <div className="div-2">
-        <div className="title-div">
-          <p className="title">Novo por aqui?</p>
-        </div>
-        <input
-          className="styled-input"
-          type="text"
-          placeholder="Nome completo"
-        />
-        <input className="styled-input" type="text" placeholder="E-mail" />
-        <input className="styled-input" type="text" placeholder="Senha" />
-        <input
-          className="styled-input"
-          type="text"
-          placeholder="Confirmar senha"
-        />
-        <button className="styled-btn">Cadastrar</button>
+        <form onSubmit={handleRegister}>
+          <div className="title-div">
+            <p className="title">Novo por aqui?</p>
+          </div>
+          <input
+            onChange={(e) => setFirst_name(e.target.value)}
+            className="styled-input"
+            type="text"
+            placeholder="Nome"
+          />
+          <input
+            onChange={(e) => setLast_name(e.target.value)}
+            className="styled-input"
+            type="text"
+            placeholder="Sobrenome"
+          />
+          <input
+            onChange={(e) => setEmail(e.target.value)}
+            className="styled-input"
+            type="text"
+            placeholder="E-mail"
+          />
+          <input
+            onChange={(e) => setPassword(e.target.value)}
+            className="styled-input"
+            type="text"
+            placeholder="Senha"
+          />
+          <input
+            className="styled-input"
+            type="text"
+            placeholder="Confirmar senha"
+          />
+          <button type="submit" className="styled-btn">
+            Cadastrar
+          </button>
+        </form>
       </div>
     </S.LoginDiv>
   );

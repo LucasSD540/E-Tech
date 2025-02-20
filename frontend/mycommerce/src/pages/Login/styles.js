@@ -83,15 +83,20 @@ export const LoginDiv = styled.div`
   .div-2 {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
 
-    .title-div {
-      max-width: 300px;
-      width: 100%;
-    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
 
-    .title {
-      margin-bottom: 32px;
+      .title-div {
+        max-width: 300px;
+        width: 100%;
+      }
+
+      .title {
+        margin-bottom: 32px;
+      }
     }
 
     .styled-input {
