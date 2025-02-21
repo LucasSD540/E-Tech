@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from ..serializers import OrderItemSerializer
 from ..models import OrderItemModel
 
-class OrderItemCreateView(generics.ListCreateAPIView):
+class OrderItemCreateView(generics.CreateAPIView):
   queryset = OrderItemModel.objects.all()
   serializer_class = OrderItemSerializer
   permission_classes = [AllowAny]

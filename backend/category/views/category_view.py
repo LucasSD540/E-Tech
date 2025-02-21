@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from ..models import Category
 from ..serializers import CategorySerializer
 
-class CategoryCreateView(generics.ListCreateAPIView):
+class CategoryCreateView(generics.CreateAPIView):
   queryset = Category.objects.all()
   serializer_class = CategorySerializer
   permission_classes = [IsAuthenticated]

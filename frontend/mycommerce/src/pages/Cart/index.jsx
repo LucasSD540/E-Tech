@@ -1,13 +1,13 @@
 import { ProductCard } from "../../components/ProductCard";
 import * as S from "./styles";
 
-export const Cart = () => {
+export const Cart = ({ items, totalPrice, freight, total }) => {
   return (
     <S.CartDiv className="container">
       <div className="first-div">
         <div>
           <p className="myCart-p">Meu carrinho</p>
-          <p className="myItems-p">3 itens no carrinho</p>
+          <p className="myItems-p">{items} itens no carrinho</p>
         </div>
         <ProductCard />
         <ProductCard />
@@ -25,10 +25,10 @@ export const Cart = () => {
             placeholder="Digite seu CEP"
           />
         </div>
-        <p className="sub-total-p">Subtotal: R$ 119,40</p>
-        <p className="freight-p">Frete: R$ 13,80</p>
+        <p className="sub-total-p">Subtotal: {totalPrice}</p>
+        <p className="freight-p">Frete: {freight}</p>
         <hr className="line" />
-        <p className="total-p">Total: R$ 133,20</p>
+        <p className="total-p">Total: {total}</p>
         <button className="finish-btn">Finalizar Compra</button>
       </div>
     </S.CartDiv>

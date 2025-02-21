@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from ..models import Product
 from ..serializers import ProductSerializer
 
-class ProductCreateView(generics.ListCreateAPIView):
+class ProductCreateView(generics.CreateAPIView):
   queryset = Product.objects.all()
   serializer_class = ProductSerializer
   permission_classes = [IsAuthenticated]

@@ -21,7 +21,7 @@ class Order(models.Model):
 
   @property
   def total_price(self):
-    return sum((item.product.price - item.discount) * item.quantity for item in self.items.all())
+    return sum(item.product.price * item.quantity for item in self.items.all())
 
   def __str__(self):
     return f"Pedido {self.id} - {self.customer} - {self.status}"

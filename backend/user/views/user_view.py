@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from ..serializers import UserSerializer
 from ..models import Account
 
-class UserCreateView(generics.ListCreateAPIView):
+class UserCreateView(generics.CreateAPIView):
   queryset = Account.objects.all()
   serializer_class = UserSerializer
   permission_classes = [AllowAny]
