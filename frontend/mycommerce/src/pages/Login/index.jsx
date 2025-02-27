@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { changeIsLoggedIn } from "../../store/slices/loginSlice";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation, useRegisterMutation } from "../../services/authApi";
 import back from "../../assets/images/back_icon.png";
 import * as S from "./styles";
@@ -11,7 +9,7 @@ export const Login = () => {
   const [last_name, setLast_name] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [login] = useLoginMutation();
   const [register] = useRegisterMutation();
@@ -20,8 +18,7 @@ export const Login = () => {
     e.preventDefault();
     try {
       await login({ email, password }).unwrap();
-      alert("Login realizado com sucesso!");
-      dispatch(changeIsLoggedIn(true));
+      navigate("/");
     } catch (err) {
       alert("Erro ao fazer login!");
     }
@@ -31,7 +28,6 @@ export const Login = () => {
     e.preventDefault();
     try {
       await register({ first_name, last_name, email, password }).unwrap();
-      alert("Usuário cadastrado com sucesso!");
     } catch (err) {
       if (err.status === 400 && err.data?.email) {
         alert("Este e-mail já está em uso. Tente outro.");
@@ -59,7 +55,7 @@ export const Login = () => {
           <input
             onChange={(e) => setPassword(e.target.value)}
             className="styled-input password"
-            type="text"
+            type="password"
             placeholder="Senha"
           />
           <p className="forgot-link">Esqueceu sua senha?</p>
@@ -94,12 +90,12 @@ export const Login = () => {
           <input
             onChange={(e) => setPassword(e.target.value)}
             className="styled-input"
-            type="text"
+            type="password"
             placeholder="Senha"
           />
           <input
             className="styled-input"
-            type="text"
+            type="password"
             placeholder="Confirmar senha"
           />
           <button type="submit" className="styled-btn">

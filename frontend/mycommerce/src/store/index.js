@@ -3,7 +3,7 @@ import { productApi } from "../services/productApi";
 import { categoryApi } from "../services/categoryApi";
 import { authApi } from "../services/authApi";
 import productIdReducer from "./slices/productIdSlice";
-import isLoggedInReducer from "./slices/loginSlice";
+import isAuthInReducer from "./slices/loginSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +11,7 @@ export const store = configureStore({
     [categoryApi.reducerPath]: categoryApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     productId: productIdReducer,
-    isLoggedIn: isLoggedInReducer,
+    isAuth: isAuthInReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

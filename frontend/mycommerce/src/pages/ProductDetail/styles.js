@@ -32,7 +32,14 @@ export const ProductDetailDiv = styled.div`
         width: 100%;
         height: 250px;
         border-radius: 10px;
-        margin-bottom: 32px;
+        margin-bottom: 12px;
+      }
+
+      .name-p {
+        font-size: 26px;
+        font-weight: bold;
+        color: var(--primary-color);
+        margin-bottom: 24px;
       }
 
       .price-p {

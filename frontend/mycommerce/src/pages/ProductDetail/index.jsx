@@ -28,6 +28,7 @@ export const ProductDetail = () => {
       <div className="info-div">
         <div className="div-1">
           <img src={productDetailData.image_url} alt="" />
+          <p className="name-p">{productDetailData.name}</p>
           <div className="p-input-div">
             <p className="price-p">{formatPrice(productDetailData.price)}</p>
             <input

@@ -14,6 +14,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -27,6 +28,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'drf_spectacular',
     'user',
     'product',
@@ -34,14 +36,12 @@ INSTALLED_APPS = [
     'orderItem',
     'favorite',
     'category',
-    'cart',
-    'cartItem',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -127,24 +127,22 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'user.Account'
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'user.authentication.CookieJWTAuthentication',
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-AUTH_USER_MODEL = 'user.Account'
 
 SIMPLE_JWT = {
   "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
   "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-  "COOKIE_ACCESS_TOKEN": "access_token",
-  "COOKIE_REFRESH_TOKEN": "refresh_token",
+  "ROTATE_REFRESH_TOKENS": False,
+  "BLACKLIST_AFTER_ROTATION": False,
 }
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True

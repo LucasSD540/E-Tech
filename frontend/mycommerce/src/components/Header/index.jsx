@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { useLogoutMutation } from "../../services/authApi";
+import { changeIsAuth } from "../../store/slices/loginSlice";
 import logo from "../../assets/images/logo.png";
 import * as S from "./styles";
 
 export const Header = () => {
   const [popUp, setPopUp] = useState(false);
   const [entry, setEntry] = useState(false);
-
-  const isLoggedIn = useSelector((state) => state.isLoggedIn.isLoggedIn);
-
+  const [logout] = useLogoutMutation();
+  const dispatch = useDispatch();
   const location = useLocation();
+
+  const isAuth = useSelector((state) => state.isAuth.isAuth);
 
   useEffect(() => {
     if (
@@ -25,6 +28,16 @@ export const Header = () => {
 
   const handlePopUp = () => {
     setPopUp(!popUp);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      alert("Saiu da conta!");
+      dispatch(changeIsAuth(false));
+    } catch (err) {
+      alert("Não foi possível sair da conta!");
+    }
   };
 
   return (
@@ -46,21 +59,21 @@ export const Header = () => {
             className={`${entry ? "active-link" : ""} link-item center`}
             onClick={() => handlePopUp()}
           >
-            {isLoggedIn ? (
+            {isAuth ? (
               <>
                 <p>Conta</p>
                 {popUp && (
                   <div className="popUp-div">
-                    <li className="link-item first">
+                    <p className="link-item first">
                       <NavLink className="link" to="/account-detail">
                         Dados da conta
                       </NavLink>
-                    </li>
-                    <li className="link-item second">
+                    </p>
+                    <p onClick={handleLogout} className="link-item second">
                       <NavLink className="link" to="/">
                         Sair da conta
                       </NavLink>
-                    </li>
+                    </p>
                   </div>
                 )}
               </>
