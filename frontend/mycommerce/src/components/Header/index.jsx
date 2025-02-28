@@ -1,19 +1,12 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../services/authApi";
-import { changeIsAuth } from "../../store/slices/loginSlice";
 import logo from "../../assets/images/logo.png";
 import * as S from "./styles";
 
 export const Header = () => {
-  const [popUp, setPopUp] = useState(false);
   const [entry, setEntry] = useState(false);
-  const [logout] = useLogoutMutation();
-  const dispatch = useDispatch();
   const location = useLocation();
-
-  const isAuth = useSelector((state) => state.isAuth.isAuth);
 
   useEffect(() => {
     if (
@@ -25,20 +18,6 @@ export const Header = () => {
       setEntry(false);
     }
   }, [location.pathname]);
-
-  const handlePopUp = () => {
-    setPopUp(!popUp);
-  };
-
-  const handleLogout = async () => {
-    try {
-      await logout().unwrap();
-      alert("Saiu da conta!");
-      dispatch(changeIsAuth(false));
-    } catch (err) {
-      alert("Não foi possível sair da conta!");
-    }
-  };
 
   return (
     <S.HeaderDiv>
@@ -55,32 +34,87 @@ export const Header = () => {
           >
             Início
           </NavLink>
-          <li
-            className={`${entry ? "active-link" : ""} link-item center`}
-            onClick={() => handlePopUp()}
+          <li className={`${entry ? "active-link" : ""} link-item center`}>
+            <NavLink className="link-item" to="/login">
+              Entrar
+            </NavLink>
+          </li>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "active-link link-item" : "link-item"
+            }
+            to="/cart"
           >
-            {isAuth ? (
-              <>
-                <p>Conta</p>
-                {popUp && (
-                  <div className="popUp-div">
-                    <p className="link-item first">
-                      <NavLink className="link" to="/account-detail">
-                        Dados da conta
-                      </NavLink>
-                    </p>
-                    <p onClick={handleLogout} className="link-item second">
-                      <NavLink className="link" to="/">
-                        Sair da conta
-                      </NavLink>
-                    </p>
-                  </div>
-                )}
-              </>
-            ) : (
-              <NavLink className="link-item" to="/login">
-                Entrar
-              </NavLink>
+            Carrinho
+          </NavLink>
+        </nav>
+      </div>
+    </S.HeaderDiv>
+  );
+};
+
+export const AuthHeader = () => {
+  const [popUp, setPopUp] = useState(false);
+  const [entry, setEntry] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
+
+  const handlePopUp = () => {
+    setPopUp(!popUp);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();
+      alert("Saiu da conta!");
+      navigate("/");
+    } catch (err) {
+      alert("Não foi possível sair da conta!");
+    }
+  };
+
+  useEffect(() => {
+    if (
+      location.pathname.includes("account-detail") ||
+      location.pathname.includes("login")
+    ) {
+      setEntry(true);
+    } else {
+      setEntry(false);
+    }
+  }, [location.pathname]);
+
+  return (
+    <S.HeaderDiv>
+      <div className="container">
+        <Link to="/userHome">
+          <img src={logo} alt="logo-image" />
+        </Link>
+        <nav>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "active-link link-item" : "link-item"
+            }
+            to="/userHome"
+          >
+            Início
+          </NavLink>
+          <li className={`${entry ? "active-link" : ""} link-item center`}>
+            <p onClick={() => handlePopUp()}>Conta</p>
+            {popUp && (
+              <div className="popUp-div">
+                <p className="link-item first">
+                  <NavLink className="link" to="/account-detail">
+                    Dados da conta
+                  </NavLink>
+                </p>
+                <p onClick={handleLogout} className="link-item second">
+                  <NavLink className="link" to="/">
+                    Sair da conta
+                  </NavLink>
+                </p>
+              </div>
             )}
           </li>
           <NavLink
