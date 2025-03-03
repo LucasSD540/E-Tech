@@ -10,13 +10,13 @@ class CategorySerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Category
-    fields = ['id', 'name', 'category_products', 'products']
+    fields = ['id', 'categoryName', 'category_products', 'products']
 
   def get_products(self, obj):
     return [
       {
         "id": product.id,
-        "name": product.name,
+        "productName": product.productName,
         "description": product.description,
         "price": product.price,
         "stock": product.stock,

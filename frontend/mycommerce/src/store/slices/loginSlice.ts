@@ -1,12 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = { isAuth: null };
+interface IsAuthState {
+  isAuth: boolean;
+}
+
+const initialState: IsAuthState = { isAuth: false };
 
 const isAuthSlice = createSlice({
   name: "isAuth",
   initialState,
   reducers: {
-    changeIsAuth: (state, action) => {
+    changeIsAuth: (state, action: PayloadAction<boolean>) => {
       state.isAuth = action.payload;
     },
   },

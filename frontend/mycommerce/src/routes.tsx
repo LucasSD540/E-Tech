@@ -1,3 +1,4 @@
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Home } from "./pages/Home";
@@ -12,14 +13,7 @@ export const Routing = () => {
       <Route path="/" element={<Home />} />
       <Route path="/userHome" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <Route
-        path="/cart"
-        element={
-          <ProtectedRoute>
-            <Cart />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/cart" element={<Cart />} />
       <Route path="/product-detail/:id" element={<ProductDetail />} />
     </Routes>
   );
@@ -39,14 +33,7 @@ export const HeaderRouting = () => {
           </ProtectedRoute>
         }
       />
-      <Route
-        path="/cart"
-        element={
-          <ProtectedRoute>
-            <AuthHeader />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/cart" element={<Header />} />
     </Routes>
   );
 };

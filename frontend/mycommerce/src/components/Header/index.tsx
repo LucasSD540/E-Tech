@@ -1,8 +1,10 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../services/authApi";
-import logo from "../../assets/images/logo.png";
 import * as S from "./styles";
+
+const logo = "assets/images/logo.png";
 
 export const Header = () => {
   const [entry, setEntry] = useState(false);
@@ -66,7 +68,7 @@ export const AuthHeader = () => {
 
   const handleLogout = async () => {
     try {
-      await logout().unwrap();
+      await logout(undefined).unwrap();
       alert("Saiu da conta!");
       navigate("/");
     } catch (err) {

@@ -1,11 +1,14 @@
+import React from "react";
+import { ProductProps } from "../Card";
 import { useFetchProductQuery } from "../../services/productApi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Card } from "../Card";
-import loading_card from "../../assets/images/loading_card.png";
 import "./styles.css";
+
+const loading_card = "assets/images/loading_card.png";
 
 export const OfferProductCarousel = () => {
   const {
@@ -25,16 +28,16 @@ export const OfferProductCarousel = () => {
     );
   }
 
-  const formatProductName = (name) => {
+  const formatProductName = (name: string) => {
     return name.length > 16 ? name.slice(0, 16) + "..." : name;
   };
 
   const offerProducts = productsData.filter(
-    (product) => product.old_price > product.price
+    (product: any) => product.old_price > product.price
   );
 
-  const discountFormated = ({ old_price, price }) => {
-    return (((old_price - price) / old_price) * 100).toFixed(0);
+  const discountFormated = (old_price: number, price: number) => {
+    return Number(((old_price - price) / old_price) * 100).toFixed(0);
   };
 
   return (
@@ -44,24 +47,24 @@ export const OfferProductCarousel = () => {
       navigation
       modules={[Navigation]}
     >
-      {offerProducts.map((product, index) => (
-        <SwiperSlide key={index}>
-          <Card
-            key={index}
-            cardProductId={product.id}
-            promo={product.old_price > product.price}
-            name={formatProductName(product.name)}
-            discount={discountFormated({
-              old_price: product.old_price,
-              price: product.price,
-            })}
-            oldPrice={product.old_price}
-            price={product.price}
-            imageUrl={product.image_url}
-            category={product.category.name}
-          />
-        </SwiperSlide>
-      ))}
+      {offerProducts.map((product: any, index: number) => {
+        const productItem: ProductProps = {
+          cardProductId: product.id,
+          promo: product.old_price > product.price,
+          productName: formatProductName(product.productName),
+          discount: discountFormated(product.old_price, product.price),
+          old_price: product.old_price,
+          price: product.price,
+          image_url: product.image_url,
+          categoryName: product.categoryName,
+        };
+
+        return (
+          <SwiperSlide key={index}>
+            <Card product={productItem} />
+          </SwiperSlide>
+        );
+      })}
     </Swiper>
   );
 };

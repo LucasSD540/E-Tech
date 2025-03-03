@@ -1,25 +1,46 @@
+import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { add } from "../../store/slices/cartSlice";
 import { changeProductId } from "../../store/slices/productIdSlice";
-import favorite_red_outline from "../../assets/images/favorite_red_outline.png";
-import favorite_blue_outline from "../../assets/images/favorite_blue_outline.png";
-import favorite_red from "../../assets/images/favorite_red.png";
-import favorite_blue from "../../assets/images/favorite_blue.png";
-import promo_icon from "../../assets/images/promo_icon.png";
 import * as S from "./styles";
 
-export const Card = ({
-  promo,
-  name,
-  discount,
-  oldPrice,
-  price,
-  imageUrl,
-  category,
-  cardProductId,
-}) => {
+const favorite_red_outline = "assets/images/favorite_red_outline.png";
+const favorite_blue_outline = "assets/images/favorite_blue_outline.png";
+const favorite_red = "assets/images/favorite_red.png";
+const favorite_blue = "assets/images/favorite_blue.png";
+const promo_icon = "assets/images/promo_icon.png";
+
+export type ProductProps = {
+  promo: boolean;
+  productName: string;
+  discount: string;
+  old_price: number;
+  price: number;
+  image_url: string;
+  categoryName: string;
+  cardProductId: number;
+};
+
+export type ProductItem = {
+  product: ProductProps;
+};
+
+export const Card = ({ product = {} as ProductProps }: ProductItem) => {
+  const {
+    promo = false,
+    productName = "",
+    discount = 0,
+    old_price = 0,
+    price = 0,
+    image_url = "",
+    categoryName = "",
+    cardProductId = 0,
+  } = product;
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [favorite, setFavorite] = useState(false);
 
   const handleSetProductId = () => {
@@ -37,10 +58,15 @@ export const Card = ({
     }).format(preco);
   };
 
+  const addItem = (product: ProductItem) => {
+    dispatch(add(product));
+    navigate("/cart");
+  };
+
   return (
     <S.CardDiv promo={promo}>
       <div className="product-img-div">
-        <img className="product-img" src={imageUrl} alt="product-image" />
+        <img className="product-img" src={image_url} alt="product-image" />
         <img
           className="favorite-icon"
           src={
@@ -57,20 +83,24 @@ export const Card = ({
         />
       </div>
       <div className="product-info">
-        <h3 className="product-title">{name}</h3>
+        <h3 className="product-title">{productName}</h3>
         {promo && (
           <div className="discount-flag">
             <img src={promo_icon} alt="" />
             <p>{discount}%</p>
           </div>
         )}
-        <p className="product-category">{category}</p>
+        <p className="product-category">{categoryName}</p>
         <p className="product-oldPrice">
-          <s>{formatPrice(oldPrice)}</s>
+          <s>{formatPrice(old_price)}</s>
         </p>
         <p className="product-price">{formatPrice(price)}</p>
         <div className="buttons">
-          <Link to="/" className="btn btn-1">
+          <Link
+            onClick={() => addItem({ product })}
+            to="/"
+            className="btn btn-1"
+          >
             Comprar
           </Link>
           <Link

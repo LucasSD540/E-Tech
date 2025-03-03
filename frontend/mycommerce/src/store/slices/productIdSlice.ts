@@ -1,12 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = { productId: "" };
+interface ProductIdState {
+  productId: number;
+}
+
+const initialState: ProductIdState = { productId: 0 };
 
 const productIdSlice = createSlice({
   name: "productId",
   initialState,
   reducers: {
-    changeProductId: (state, action) => {
+    changeProductId: (state, action: PayloadAction<number>) => {
       state.productId = action.payload;
     },
   },

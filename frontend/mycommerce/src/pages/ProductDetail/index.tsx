@@ -1,11 +1,16 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import { useFetchDetailProductQuery } from "../../services/productApi";
-import back from "../../assets/images/back_icon.png";
 import * as S from "./styles";
 
+const back = "assets/images/back_icon.png";
+
 export const ProductDetail = () => {
-  const productId = useSelector((state) => state.productId.productId);
+  const productId = useSelector(
+    (state: RootState) => state.productId.productId
+  );
 
   const { data: productDetailData = [] } =
     useFetchDetailProductQuery(productId);

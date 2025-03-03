@@ -1,8 +1,10 @@
+import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation, useRegisterMutation } from "../../services/authApi";
-import back from "../../assets/images/back_icon.png";
 import * as S from "./styles";
+
+const back = "assets/images/back_icon.png";
 
 export const Login = () => {
   const [first_name, setFirst_name] = useState("");
@@ -14,7 +16,7 @@ export const Login = () => {
   const [login] = useLoginMutation();
   const [register] = useRegisterMutation();
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault();
     try {
       await login({ email, password }).unwrap();
@@ -24,11 +26,11 @@ export const Login = () => {
     }
   };
 
-  const handleRegister = async (e) => {
+  const handleRegister = async (e: any) => {
     e.preventDefault();
     try {
       await register({ first_name, last_name, email, password }).unwrap();
-    } catch (err) {
+    } catch (err: any) {
       if (err.status === 400 && err.data?.email) {
         alert("Este e-mail já está em uso. Tente outro.");
       } else {

@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
-export const ProductSectionDiv = styled.div`
+type Props = {
+  promo: boolean;
+  titlesize: string;
+  textcolor: string;
+};
+
+export const ProductSectionDiv = styled.div<Props>`
   .swiper-button-next,
   .swiper-button-prev {
     color: var(--third-text-color);
@@ -15,8 +21,8 @@ export const ProductSectionDiv = styled.div`
       align-items: center;
 
       h2 {
-        font-size: ${(props) => props.titleSize};
-        color: ${(props) => props.textColor};
+        font-size: ${(props) => props.titlesize};
+        color: ${(props) => props.textcolor};
         margin-right: 4px;
       }
 

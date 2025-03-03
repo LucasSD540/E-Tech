@@ -1,7 +1,9 @@
-import security from "../../assets/images/security.png";
-import note from "../../assets/images/note.png";
-import telephone from "../../assets/images/telephone.png";
+import React from "react";
 import * as S from "./styles";
+
+const security = "assets/images/security.png";
+const note = "assets/images/note.png";
+const telephone = "assets/images/telephone.png";
 
 export const Footer = () => {
   return (

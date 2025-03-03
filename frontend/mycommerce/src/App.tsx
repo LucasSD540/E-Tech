@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./store";
 import { Footer } from "./components/Footer";

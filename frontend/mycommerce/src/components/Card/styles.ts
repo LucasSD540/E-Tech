@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const CardDiv = styled.div`
+type Props = {
+  promo: boolean;
+};
+
+export const CardDiv = styled.div<Props>`
   height: 260px;
   max-width: 200px;
   width: 100%;
