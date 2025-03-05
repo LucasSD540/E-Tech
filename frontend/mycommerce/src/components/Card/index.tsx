@@ -13,6 +13,7 @@ const favorite_blue = "assets/images/favorite_blue.png";
 const promo_icon = "assets/images/promo_icon.png";
 
 export type ProductProps = {
+  quantity: number;
   promo: boolean;
   productName: string;
   discount: string;
@@ -58,8 +59,9 @@ export const Card = ({ product = {} as ProductProps }: ProductItem) => {
     }).format(preco);
   };
 
-  const addItem = (product: ProductItem) => {
-    dispatch(add(product));
+  const addItem = () => {
+    const productWithQuantity = { ...product, quantity: 1 };
+    dispatch(add({ product: productWithQuantity }));
     navigate("/cart");
   };
 
@@ -96,13 +98,9 @@ export const Card = ({ product = {} as ProductProps }: ProductItem) => {
         </p>
         <p className="product-price">{formatPrice(price)}</p>
         <div className="buttons">
-          <Link
-            onClick={() => addItem({ product })}
-            to="/"
-            className="btn btn-1"
-          >
+          <button onClick={addItem} className="btn btn-1">
             Comprar
-          </Link>
+          </button>
           <Link
             onClick={handleSetProductId}
             to={`/product-detail/${cardProductId}`}

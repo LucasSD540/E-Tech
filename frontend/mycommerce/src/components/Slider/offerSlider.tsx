@@ -50,6 +50,7 @@ export const OfferProductCarousel = () => {
       {offerProducts.map((product: any, index: number) => {
         const productItem: ProductProps = {
           cardProductId: product.id,
+          quantity: product.quantity,
           promo: product.old_price > product.price,
           productName: formatProductName(product.productName),
           discount: discountFormated(product.old_price, product.price),

@@ -12,16 +12,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action: PayloadAction<ProductItem>) => {
-      const items = state.items.find(
-        (item) =>
-          item.product.cardProductId === action.payload.product.cardProductId
-      );
-
-      if (!items) {
-        state.items.push(action.payload);
-      } else {
-        alert("Esse produto já foi adicionado ao carrinho");
-      }
+      state.items.push(action.payload);
     },
     remove: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter(

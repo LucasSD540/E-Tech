@@ -1,13 +1,19 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { ProductProps } from "../../components/Card";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useFetchDetailProductQuery } from "../../services/productApi";
+import { add } from "../../store/slices/cartSlice";
 import * as S from "./styles";
 
 const back = "assets/images/back_icon.png";
 
 export const ProductDetail = () => {
+  const [productQuantity, setProductQuantity] = useState(1);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const productId = useSelector(
     (state: RootState) => state.productId.productId
   );
@@ -20,6 +26,12 @@ export const ProductDetail = () => {
       style: "currency",
       currency: "BRL",
     }).format(preco);
+  };
+
+  const addItem = (product: ProductProps) => {
+    const productWithQuantity = { ...product, quantity: productQuantity };
+    dispatch(add({ product: productWithQuantity }));
+    navigate("/cart");
   };
 
   return (
@@ -37,15 +49,21 @@ export const ProductDetail = () => {
           <div className="p-input-div">
             <p className="price-p">{formatPrice(productDetailData.price)}</p>
             <input
+              onChange={(e) => setProductQuantity(Number(e.target.value))}
               className="quantity-input"
               type="number"
               name=""
               id=""
               min="1"
-              defaultValue="1"
+              value={productQuantity}
             />
           </div>
-          <button className="buy-btn">Comprar</button>
+          <button
+            className="buy-btn"
+            onClick={() => addItem(productDetailData)}
+          >
+            Comprar
+          </button>
         </div>
         <div className="div-2">
           <h5>Descrição do produto</h5>

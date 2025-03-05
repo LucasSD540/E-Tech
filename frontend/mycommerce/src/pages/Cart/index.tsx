@@ -12,7 +12,10 @@ export const Cart = () => {
       <div className="first-div">
         <div>
           <p className="myCart-p">Meu carrinho</p>
-          <p className="myItems-p">{cartItems.length} itens no carrinho</p>
+          <p className="myItems-p">
+            {cartItems.length}{" "}
+            {cartItems.length !== 1 ? "itens no carrinho" : "item no carrinho"}
+          </p>
         </div>
         {cartItems.map((item, index) => (
           <ProductCard key={index} product={item.product} />

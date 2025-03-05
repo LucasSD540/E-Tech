@@ -46,8 +46,6 @@ export const ProductCarousel = ({ categoryId }: Product) => {
     return Number(((old_price - price) / old_price) * 100).toFixed(0);
   };
 
-  console.log(productsData);
-
   return (
     <Swiper
       slidesPerView={4}
@@ -58,6 +56,7 @@ export const ProductCarousel = ({ categoryId }: Product) => {
       {filteredProducts.map((product: any, index: number) => {
         const productItem: ProductProps = {
           cardProductId: product.id,
+          quantity: product.quantity,
           promo: product.old_price > product.price,
           productName: formatProductName(product.productName),
           discount: discountFormated(product.old_price, product.price),
