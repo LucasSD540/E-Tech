@@ -1,11 +1,21 @@
 import React from "react";
 import { RootState } from "../../store";
 import { ProductCard } from "../../components/ProductCard";
+import { getSubTotal } from "../../store/slices/cartSlice";
 import { useSelector } from "react-redux";
 import * as S from "./styles";
 
 export const Cart = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
+
+  const subTotal = useSelector(getSubTotal);
+
+  const formatPrice = (preco = 0) => {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(preco);
+  };
 
   return (
     <S.CartDiv className="container">
@@ -33,7 +43,7 @@ export const Cart = () => {
             placeholder="Digite seu CEP"
           />
         </div>
-        <p className="sub-total-p">Subtotal: </p>
+        <p className="sub-total-p">Subtotal: {formatPrice(subTotal)}</p>
         <p className="freight-p">Frete: </p>
         <hr className="line" />
         <p className="total-p">Total: </p>
