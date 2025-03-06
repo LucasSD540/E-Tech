@@ -1,5 +1,6 @@
 import React from "react";
 import { ProductProps } from "../Card";
+import { discountFormated } from "../../utils/formatDiscount";
 import { useFetchProductQuery } from "../../services/productApi";
 import { formatProductName } from "../../utils/formatProductName";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -32,10 +33,6 @@ export const OfferProductCarousel = () => {
   const offerProducts = productsData.filter(
     (product: any) => product.old_price > product.price
   );
-
-  const discountFormated = (old_price: number, price: number) => {
-    return Number(((old_price - price) / old_price) * 100).toFixed(0);
-  };
 
   return (
     <Swiper
