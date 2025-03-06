@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'orderItem',
     'favorite',
     'category',
+    'shipping'
 ]
 
 MIDDLEWARE = [
