@@ -16,14 +16,32 @@ export const ProductCardDiv = styled.div`
     justify-content: space-between;
 
     p {
-      font-size: 14px;
+      font-size: 13px;
+      color: #485460;
     }
 
     .first-div {
-      width: 45%;
+      width: 52%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+
+      .product-name {
+        color: #000;
+        font-weight: bold;
+        font-size: 15px;
+      }
+
+      .increase {
+        margin: 0 8px;
+        cursor: pointer;
+        font-size: 15px;
+      }
+
+      .decrease {
+        cursor: pointer;
+        font-size: 15px;
+      }
     }
 
     .second-div

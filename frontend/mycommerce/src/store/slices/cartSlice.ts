@@ -22,6 +22,22 @@ const cartSlice = createSlice({
     clear: (state) => {
       state.items = [];
     },
+    increaseQuantity: (state, action: PayloadAction<number>) => {
+      const product = state.items.find(
+        (item) => item.product.cardProductId === action.payload
+      );
+      if (product) {
+        product.product.quantity += 1;
+      }
+    },
+    decreaseQuantity: (state, action: PayloadAction<number>) => {
+      const product = state.items.find(
+        (item) => item.product.cardProductId === action.payload
+      );
+      if (product && product.product.quantity > 1) {
+        product.product.quantity -= 1;
+      }
+    },
   },
 });
 
@@ -31,5 +47,6 @@ export const getSubTotal = (state: { cart: CartSliceState }) =>
     0
   );
 
-export const { add, remove, clear } = cartSlice.actions;
+export const { add, remove, clear, increaseQuantity, decreaseQuantity } =
+  cartSlice.actions;
 export default cartSlice.reducer;
