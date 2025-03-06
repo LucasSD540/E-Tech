@@ -1,5 +1,6 @@
 import React from "react";
 import { RootState } from "../../store";
+import { formatPrice } from "../../utils/formatPrice";
 import { ProductCard } from "../../components/ProductCard";
 import { getSubTotal } from "../../store/slices/cartSlice";
 import { useSelector } from "react-redux";
@@ -9,13 +10,6 @@ export const Cart = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const subTotal = useSelector(getSubTotal);
-
-  const formatPrice = (preco = 0) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(preco);
-  };
 
   return (
     <S.CartDiv className="container">

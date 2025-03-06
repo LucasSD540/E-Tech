@@ -1,6 +1,7 @@
 import React from "react";
 import { ProductProps } from "../Card";
 import { useFetchProductQuery } from "../../services/productApi";
+import { formatProductName } from "../../utils/formatProductName";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -33,10 +34,6 @@ export const ProductCarousel = ({ categoryId }: Product) => {
       </div>
     );
   }
-
-  const formatProductName = (name: string) => {
-    return name.length > 16 ? name.slice(0, 16) + "..." : name;
-  };
 
   const filteredProducts = productsData.filter(
     (product: any) => Number(product.category) === Number(categoryId)

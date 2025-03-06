@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { add } from "../../store/slices/cartSlice";
+import { formatPrice } from "../../utils/formatPrice";
 import { changeProductId } from "../../store/slices/productIdSlice";
 import * as S from "./styles";
 
@@ -50,13 +51,6 @@ export const Card = ({ product = {} as ProductProps }: ProductItem) => {
 
   const handleFavorite = () => {
     setFavorite((prevFavorite) => !prevFavorite);
-  };
-
-  const formatPrice = (preco = 0) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(preco);
   };
 
   const addItem = () => {

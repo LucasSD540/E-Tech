@@ -20,7 +20,7 @@ export const Login = () => {
     e.preventDefault();
     try {
       await login({ email, password }).unwrap();
-      navigate("/userHome");
+      navigate("/");
     } catch (err) {
       alert("Erro ao fazer login!");
     }

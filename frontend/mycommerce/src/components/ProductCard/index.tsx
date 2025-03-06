@@ -5,6 +5,8 @@ import {
   increaseQuantity,
   decreaseQuantity,
 } from "../../store/slices/cartSlice";
+import { formatProductName } from "../../utils/formatProductName";
+import { formatPrice } from "../../utils/formatPrice";
 import * as S from "./styles";
 import { useDispatch } from "react-redux";
 
@@ -18,17 +20,6 @@ export const ProductCard = ({ product }: ProductItem) => {
   const decreaseItem = () => dispatch(decreaseQuantity(product.cardProductId));
 
   const total = Number((product.quantity * product.price).toFixed(2));
-
-  const formatPrice = (total = 0) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(total);
-  };
-
-  const formatProductName = (name: string) => {
-    return name.length > 15 ? name.slice(0, 15) + "..." : name;
-  };
 
   return (
     <S.ProductCardDiv>

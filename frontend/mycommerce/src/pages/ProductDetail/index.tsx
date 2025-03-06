@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ProductProps } from "../../components/Card";
+import { formatPrice } from "../../utils/formatPrice";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -20,13 +21,6 @@ export const ProductDetail = () => {
 
   const { data: productDetailData = [] } =
     useFetchDetailProductQuery(productId);
-
-  const formatPrice = (preco = 0) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(preco);
-  };
 
   const addItem = (product: ProductProps) => {
     const productWithQuantity = { ...product, quantity: productQuantity };

@@ -1,6 +1,7 @@
 import React from "react";
 import { ProductProps } from "../Card";
 import { useFetchProductQuery } from "../../services/productApi";
+import { formatProductName } from "../../utils/formatProductName";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -27,10 +28,6 @@ export const OfferProductCarousel = () => {
       </div>
     );
   }
-
-  const formatProductName = (name: string) => {
-    return name.length > 16 ? name.slice(0, 16) + "..." : name;
-  };
 
   const offerProducts = productsData.filter(
     (product: any) => product.old_price > product.price
