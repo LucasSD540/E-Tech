@@ -1,5 +1,6 @@
 import React from "react";
 import { RootState } from "../../store";
+import { useCheckoutMutation } from "../../services/checkoutApi";
 import { formatPrice } from "../../utils/formatPrice";
 import { useNavigate } from "react-router-dom";
 import { useIsAuthenticatedQuery } from "../../services/authApi";
@@ -12,6 +13,7 @@ export const Cart = () => {
   const navigate = useNavigate();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const { data, isLoading } = useIsAuthenticatedQuery({});
+  const [checkout] = useCheckoutMutation();
 
   const shippingValue = 0;
 
@@ -19,11 +21,26 @@ export const Cart = () => {
 
   const total = shippingValue + subTotal;
 
-  const buyOrder = () => {
+  const handleCheckout = async () => {
     if (!data && !isLoading) {
       navigate("/login");
     } else if (data) {
-      navigate("/payment-methods");
+      try {
+        const formattedItems = cartItems.map((item) => ({
+          name: item.product.productName,
+          price: Math.round(Number(item.product.price) * 100),
+          quantity: item.product.quantity,
+        }));
+
+        const response = await checkout({ items: formattedItems }).unwrap();
+        if (response.checkout_url) {
+          window.location.href = response.checkout_url;
+        } else {
+          alert("Erro ao criar sessão de pagamento!");
+        }
+      } catch (err) {
+        console.log("Erro ao finalizar compra: ", err);
+      }
     }
   };
 
@@ -60,7 +77,7 @@ export const Cart = () => {
         <button
           disabled={total > 0 ? false : true}
           className="finish-btn"
-          onClick={buyOrder}
+          onClick={handleCheckout}
         >
           Finalizar Compra
         </button>

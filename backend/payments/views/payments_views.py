@@ -32,7 +32,7 @@ def create_checkout_session(request):
             line_items=line_items,
             mode="payment",
             success_url="http://localhost:3000/success/",
-            cancel_url="http://localhost:3000/canceled/",
+            cancel_url="http://localhost:3000/",
         )
 
         return JsonResponse({"checkout_url": session.url})
