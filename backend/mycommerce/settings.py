@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'orderItem',
     'favorite',
     'category',
-    'shipping'
+    'shipping',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -128,6 +129,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Auth config
+
 AUTH_USER_MODEL = 'user.Account'
 
 REST_FRAMEWORK = {
@@ -145,5 +148,13 @@ SIMPLE_JWT = {
   "BLACKLIST_AFTER_ROTATION": False,
 }
 
+# CORS config
+
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
+# Stripe config
+
+
+STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY")
+STRIPE_PUBLIC_KEY = config("STRIPE_PUBLIC_KEY")
