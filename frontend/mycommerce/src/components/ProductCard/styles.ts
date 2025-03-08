@@ -35,12 +35,14 @@ export const ProductCardDiv = styled.div`
       .increase {
         margin: 0 8px;
         cursor: pointer;
-        font-size: 15px;
+        font-size: 16px;
+        color: #000;
       }
 
       .decrease {
         cursor: pointer;
-        font-size: 15px;
+        font-size: 16px;
+        color: #000;
       }
     }
 

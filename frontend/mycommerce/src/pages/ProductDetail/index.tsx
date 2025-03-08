@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { InputNumber } from "antd";
 import { ProductProps } from "../../components/Card";
 import { formatPrice } from "../../utils/formatPrice";
 import { Link, useNavigate } from "react-router-dom";
@@ -50,6 +51,13 @@ export const ProductDetail = () => {
               id=""
               min="1"
               value={productQuantity}
+            />
+            <InputNumber
+              onChange={(value) => setProductQuantity(value ?? 0)}
+              min={1}
+              max={10}
+              value={productQuantity}
+              changeOnWheel
             />
           </div>
           <button
