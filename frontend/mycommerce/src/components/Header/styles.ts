@@ -48,6 +48,7 @@ export const HeaderDiv = styled.div`
         border-radius: 5px;
         width: 120px;
         height: 60px;
+        z-index: 20;
 
         .link-item {
           font-size: 12px;

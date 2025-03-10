@@ -6,6 +6,7 @@ import { checkoutApi } from "../services/checkoutApi";
 import productIdReducer from "./slices/productIdSlice";
 import isAuthInReducer from "./slices/loginSlice";
 import cartReducer from "./slices/cartSlice";
+import overlaySlice from "./slices/overlaySlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     productId: productIdReducer,
     isAuth: isAuthInReducer,
     cart: cartReducer,
+    overlay: overlaySlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
