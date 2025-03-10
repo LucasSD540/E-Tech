@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from ..models import OrderItemModel
+from ..models import OrderItem
 from product.models import Product
 
 class OrderItemSerializer(serializers.ModelSerializer):
   product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
   total_price = serializers.SerializerMethodField()
   class Meta:
-    model = OrderItemModel
+    model = OrderItem
     fields = ['order', 'product', 'quantity', 'total_price', 'created_at', 'updated_at']
 
   def get_total_price(self, obj):

@@ -1,1 +1,1 @@
-from .orderItem_model import OrderItemModel
+from .orderItem_model import OrderItem

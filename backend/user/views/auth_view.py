@@ -1,12 +1,13 @@
 from django.http import JsonResponse
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import InvalidToken
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
 from django.contrib.auth import authenticate
 
 class LoginView(APIView):
@@ -27,7 +28,7 @@ class LoginView(APIView):
             value=access_token,
             httponly=True,
             secure=True,
-            samesite="None",
+            samesite="None"
         )
         response.set_cookie(
             key="refresh_token",
@@ -48,12 +49,18 @@ class LogoutView(APIView):
                 refresh.blacklist()
             except Exception as e:
                 return Response({"error":"Error invalidating token:" + str(e) }, status=status.HTTP_400_BAD_REQUEST)
+        
+        response = Response({"message": "Successfully logged out!"}, status=status.HTTP_200_OK)
 
-    def post(self, request):
-        response = Response({"message": "Logout successful"}, status=200)
-        response.delete_cookie("access_token")
-        response.delete_cookie("refresh_token")
-        return response
+        try:
+            response.delete_cookie("access_token")
+            response.delete_cookie("refresh_token")
+            response.data = {"message": "The cookie was removed"}
+        except Exception as e:
+            response.data = {"error": f"Remove cookie error: {str(e)}"}
+            response.status_code = status.HTTP_400_BAD_REQUEST
+
+        return response 
 
 class CookieTokenRefreshView(TokenRefreshView):
     def post(self, request):
@@ -79,6 +86,24 @@ class CookieTokenRefreshView(TokenRefreshView):
 
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def user_info(request):
-    return JsonResponse({"Usuário": request.user.email})
+def check_is_auth(request):
+    access_token = request.COOKIES.get("access_token")
+
+    if not access_token:
+        return Response({"message": "Access token were not provided"}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    try:
+        access = AccessToken(access_token)
+
+        if BlacklistedToken.objects.filter(token__jti=access["jti"]).exists():
+            return Response({"message": "Token is blacklisted"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        user = request.user
+
+        if user.is_authenticated:
+            return JsonResponse({"Usuário": user.email}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "User is not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+
+    except InvalidToken:
+        return Response({"message": "Invalid token"}, status=status.HTTP_401_UNAUTHORIZED)
