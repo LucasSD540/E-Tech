@@ -14,6 +14,6 @@ class CookieJWTAuthentication(JWTAuthentication):
             validated_token = self.get_validated_token(access_token)
             return self.get_user(validated_token), validated_token
         except ExpiredTokenError:
-            raise AuthenticationFailed(_("Token expirado"), code="token_expired")
+            raise AuthenticationFailed(_("Expired token"), code="token_expired")
         except (InvalidToken, TokenError):
-            raise AuthenticationFailed(_("Token inválido"), code="token_invalid")
+            raise AuthenticationFailed(_("Invalid token"), code="token_invalid")

@@ -1,12 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { changeIsAuth } from "../../store/slices/loginSlice";
 import { changeOverlay, changePopUp } from "../../store/slices/overlaySlice";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import {
-  useLogoutMutation,
-  useIsAuthenticatedQuery,
-} from "../../services/authApi";
+import { useLogoutMutation } from "../../services/authApi";
 import * as S from "./styles";
 import { RootState } from "../../store";
 
@@ -19,14 +16,13 @@ export const Header = () => {
   const [entry, setEntry] = useState(false);
   const [logout] = useLogoutMutation();
 
+  const isAuth = useSelector((state: RootState) => state.isAuth.isAuth);
   const popUp = useSelector((state: RootState) => state.overlay.popUp);
 
   const handlePopUp = () => {
     dispatch(changePopUp(true));
     dispatch(changeOverlay(true));
   };
-
-  const { data, refetch } = useIsAuthenticatedQuery({});
 
   useEffect(() => {
     if (
@@ -45,7 +41,7 @@ export const Header = () => {
       alert("Saiu da conta!");
       dispatch(changePopUp(false));
       navigate("/");
-      refetch();
+      dispatch(changeIsAuth(false));
     } catch (err) {
       alert("Não foi possível sair da conta!");
       dispatch(changePopUp(false));
@@ -67,7 +63,7 @@ export const Header = () => {
           >
             Início
           </NavLink>
-          {data ? (
+          {isAuth ? (
             <li className={`${entry ? "active-link" : ""} link-item center`}>
               <p onClick={() => handlePopUp()}>Conta</p>
               {popUp && (
