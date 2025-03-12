@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation, useRegisterMutation } from "../../services/authApi";
 import * as S from "./styles";
 
-const back = "assets/images/back_icon.png";
+const back = "/assets/images/back_icon.png";
 
 export const Login = () => {
   const [first_name, setFirst_name] = useState("");
