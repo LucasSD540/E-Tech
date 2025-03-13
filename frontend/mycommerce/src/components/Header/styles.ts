@@ -11,8 +11,12 @@ export const HeaderDiv = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    img {
-      cursor: pointer;
+    .img-link {
+      height: 38px;
+
+      img {
+        height: 38px;
+      }
     }
 
     nav {

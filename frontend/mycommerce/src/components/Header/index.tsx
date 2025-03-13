@@ -51,7 +51,7 @@ export const Header = () => {
   return (
     <S.HeaderDiv>
       <div className="container">
-        <Link to="/">
+        <Link className="img-link" to="/">
           <img src={logo} alt="logo-image" />
         </Link>
         <nav>
