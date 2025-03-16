@@ -113,6 +113,11 @@ export const Login = () => {
                 type="text"
                 placeholder="Nome"
               />
+              <ErrorMessage
+                name="firstName"
+                component="div"
+                className="error-message"
+              />
             </div>
             <div>
               <Field
@@ -120,6 +125,11 @@ export const Login = () => {
                 className="styled-input"
                 type="text"
                 placeholder="Sobrenome"
+              />
+              <ErrorMessage
+                name="lastName"
+                component="div"
+                className="error-message"
               />
             </div>
             <div>
@@ -129,6 +139,11 @@ export const Login = () => {
                 type="text"
                 placeholder="E-mail"
               />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="error-message"
+              />
             </div>
             <div>
               <Field
@@ -137,6 +152,11 @@ export const Login = () => {
                 type="password"
                 placeholder="Senha"
               />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="error-message"
+              />
             </div>
             <div>
               <Field
@@ -144,6 +164,11 @@ export const Login = () => {
                 className="styled-input"
                 type="password"
                 placeholder="Confirmar senha"
+              />
+              <ErrorMessage
+                name="confirmPassword"
+                component="div"
+                className="error-message"
               />
             </div>
             <button type="submit" className="styled-btn">

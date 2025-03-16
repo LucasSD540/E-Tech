@@ -27,14 +27,14 @@ export const LoginDiv = styled.div`
   }
 
   .password {
-    margin: 32px 0 8px 0;
+    margin-top: 32px;
   }
 
   .forgot-link {
     font-size: 12px;
     color: var(--forgot-text-color);
     cursor: pointer;
-    margin-bottom: 28px;
+    margin: 32px 0 32px 0;
 
     &:hover {
       text-decoration: underline;
@@ -63,6 +63,12 @@ export const LoginDiv = styled.div`
     color: var(--primary-color);
     border-right: 1px solid var(--primary-color);
 
+    .error-message {
+      position: absolute;
+      color: #e63946;
+      margin-top: 8px;
+    }
+
     .title {
       margin: 32px 0;
     }
@@ -81,9 +87,6 @@ export const LoginDiv = styled.div`
   }
 
   .div-2 {
-    display: flex;
-    flex-direction: column;
-
     form {
       display: flex;
       flex-direction: column;
@@ -101,6 +104,13 @@ export const LoginDiv = styled.div`
 
     .styled-input {
       margin-bottom: 32px;
+      min-width: 300px;
+    }
+
+    .error-message {
+      position: absolute;
+      color: #e63946;
+      margin-top: -24px;
     }
 
     .styled-btn {
