@@ -7,11 +7,11 @@ import { formatPrice } from "../../utils/formatPrice";
 import { changeProductId } from "../../store/slices/productIdSlice";
 import * as S from "./styles";
 
-const favorite_red_outline = "assets/images/favorite_red_outline.png";
-const favorite_blue_outline = "assets/images/favorite_blue_outline.png";
-const favorite_red = "assets/images/favorite_red.png";
-const favorite_blue = "assets/images/favorite_blue.png";
-const promo_icon = "assets/images/promo_icon.png";
+const favorite_red_outline = "/assets/images/favorite_red_outline.png";
+const favorite_blue_outline = "/assets/images/favorite_blue_outline.png";
+const favorite_red = "/assets/images/favorite_red.png";
+const favorite_blue = "/assets/images/favorite_blue.png";
+const promo_icon = "/assets/images/promo_icon.png";
 
 export type ProductProps = {
   quantity: number;

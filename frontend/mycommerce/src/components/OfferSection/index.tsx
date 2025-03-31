@@ -2,7 +2,7 @@ import React from "react";
 import { OfferProductCarousel } from "../Slider/offerSlider";
 import * as S from "../ProductSection/styles";
 
-const discount = "assets/images/discount.png";
+const discount = "/assets/images/discount.png";
 
 export const OfferSection = () => {
   return (

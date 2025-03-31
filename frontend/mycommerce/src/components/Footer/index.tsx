@@ -1,9 +1,9 @@
 import React from "react";
 import * as S from "./styles";
 
-const security = "assets/images/security.png";
-const note = "assets/images/note.png";
-const telephone = "assets/images/telephone.png";
+const security = "/assets/images/security.png";
+const note = "/assets/images/note.png";
+const telephone = "/assets/images/telephone.png";
 
 export const Footer = () => {
   return (

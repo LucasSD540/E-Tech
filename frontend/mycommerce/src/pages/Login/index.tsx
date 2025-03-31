@@ -23,7 +23,7 @@ export const Login = () => {
       await login({ email, password }).unwrap();
       navigate("/");
     } catch (err) {
-      alert("Erro ao fazer login!");
+      alert(`Erro ao fazer login: ${err}`);
       resetForm();
     }
   };
@@ -83,7 +83,9 @@ export const Login = () => {
                 className="error-message"
               />
             </div>
-            <p className="forgot-link">Esqueceu sua senha?</p>
+            <Link to="/send-email">
+              <p className="forgot-link">Esqueceu sua senha?</p>
+            </Link>
             <button type="submit" className="styled-btn">
               Entrar
             </button>

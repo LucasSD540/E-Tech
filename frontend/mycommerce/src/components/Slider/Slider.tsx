@@ -10,7 +10,7 @@ import "swiper/css/navigation";
 import { Card } from "../Card";
 import "./styles.css";
 
-const loading_card = "assets/images/loading_card.png";
+const loading_card = "/assets/images/loading_card.png";
 
 export type Product = {
   categoryId: number;

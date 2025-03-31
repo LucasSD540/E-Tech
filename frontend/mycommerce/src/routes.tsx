@@ -5,6 +5,8 @@ import { Login } from "./pages/Login";
 import { Cart } from "./pages/Cart";
 import { ProductDetail } from "./pages/ProductDetail";
 import { Success } from "./pages/Success";
+import { ResetPassword } from "./pages/ResetPassword";
+import { SendEmail } from "./pages/SendEmail";
 
 export const Routing = () => {
   return (
@@ -15,6 +17,8 @@ export const Routing = () => {
       <Route path="/cart" element={<Cart />} />
       <Route path="/product-detail/:id" element={<ProductDetail />} />
       <Route path="/success" element={<Success />} />
+      <Route path="/send-email" element={<SendEmail />} />
+      <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
     </Routes>
   );
 };

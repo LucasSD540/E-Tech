@@ -1,0 +1,57 @@
+.email-container {
+  padding-top: 64px;
+}
+
+.title-h3 {
+  font-size: 24px;
+  font-weight: 400;
+  color: #2E3A59;
+}
+
+.box-div {
+  height: 280px;
+  width: 420px;
+  border-radius: 15px;
+  box-shadow: 0 1px 5px 0 #000;
+  margin: 64px auto;
+  padding: 32px;
+}
+
+.box-form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.box-title-h3 {
+  font-size: 24px;
+}
+
+.email-reset-input {
+  width: 100%;
+  height: 50px;
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 1px 5px 0 #000;
+  padding-left: 16px;
+  outline: none;
+  font-size: 18px;
+}
+
+.email-reset-input::placeholder {
+  color: #999;
+  font-size: 18px;
+}
+
+.save-btn {
+  width: 100%;
+  height: 45px;
+  border-radius: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  color: #fff;
+  background: linear-gradient(45deg, #1A73E8, #0058CC);
+  cursor: pointer;
+}

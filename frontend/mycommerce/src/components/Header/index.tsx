@@ -7,7 +7,7 @@ import { useLogoutMutation } from "../../services/authApi";
 import * as S from "./styles";
 import { RootState } from "../../store";
 
-const logo = "assets/images/logo.png";
+const logo = "/assets/images/logo.png";
 
 export const Header = () => {
   const dispatch = useDispatch();

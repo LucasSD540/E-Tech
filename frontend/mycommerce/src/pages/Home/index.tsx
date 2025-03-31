@@ -8,7 +8,7 @@ import { ProductSection } from "../../components/ProductSection";
 import { OfferSection } from "../../components/OfferSection";
 import * as S from "./styles";
 
-const banner = "assets/images/banner.png";
+const banner = "/assets/images/banner.png";
 
 export type Category = {
   id: number;

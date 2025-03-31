@@ -10,7 +10,7 @@ import { formatPrice } from "../../utils/formatPrice";
 import * as S from "./styles";
 import { useDispatch } from "react-redux";
 
-const trash = "assets/images/trash.png";
+const trash = "/assets/images/trash.png";
 
 export const ProductCard = ({ product }: ProductItem) => {
   const dispatch = useDispatch();
