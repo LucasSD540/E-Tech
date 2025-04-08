@@ -125,7 +125,7 @@ class CheckIsAuth(APIView):
             user = request.user
 
             if user.is_authenticated:
-                return JsonResponse({"User": user.email}, status=status.HTTP_200_OK)
+                return JsonResponse({"email": user.email}, status=status.HTTP_200_OK)
             else:
                 return Response({"error": "User is not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
 

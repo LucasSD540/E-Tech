@@ -32,7 +32,10 @@ export const Cart = () => {
           quantity: item.product.quantity,
         }));
 
-        const response = await checkout({ items: formattedItems }).unwrap();
+        const response = await checkout({
+          email: data.email,
+          items: formattedItems,
+        }).unwrap();
         if (response.checkout_url) {
           window.location.href = response.checkout_url;
         } else {
