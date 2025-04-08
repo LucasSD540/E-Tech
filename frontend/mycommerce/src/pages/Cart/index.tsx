@@ -27,13 +27,13 @@ export const Cart = () => {
     } else if (data) {
       try {
         const formattedItems = cartItems.map((item) => ({
-          name: item.product.productName,
-          price: Math.round(Number(item.product.price) * 100),
+          product_id: item.product.cardProductId,
           quantity: item.product.quantity,
         }));
 
+        console.log(formattedItems);
+
         const response = await checkout({
-          email: data.email,
           items: formattedItems,
         }).unwrap();
         if (response.checkout_url) {

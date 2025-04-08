@@ -5,6 +5,7 @@ from django.conf import settings
 from rest_framework.decorators import api_view
 from django.core.mail import send_mail
 from decouple import config
+from product.models import Product
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -12,24 +13,37 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def create_checkout_session(request):
     try:
         data = request.data
-        email = data.get('email')
+        email = request.user.email
         
         items = data.get("items", [])
 
         if not items:
             return JsonResponse({"error": "The cart is empty"}, status=400)
 
-        line_items = [
-            {
+        line_items = []
+        for item in items:
+            product_id = item.get("product_id")
+            quantity = item.get("quantity")
+
+            if not product_id or not quantity:
+                return JsonResponse({"error": "Produto ou quantidade inválidos."}, status=400)
+
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                return JsonResponse({"error": "Produto não encontrado."}, status=404)
+
+            unit_amount = int(product.get_price() * 100)
+            line_items.append({
                 "price_data": {
                     "currency": "brl",
-                    "product_data": {"name": item["name"]},
-                    "unit_amount": item["price"],
+                    "product_data": {
+                        "name": product.productName
+                    },
+                    "unit_amount": unit_amount
                 },
-                "quantity": item["quantity"],
-            }
-            for item in items
-        ]
+                "quantity": quantity
+            })
 
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
@@ -37,15 +51,8 @@ def create_checkout_session(request):
             mode="payment",
             success_url="http://localhost:3000/success/",
             cancel_url="http://localhost:3000/",
+            customer_email=email
         )
-
-        send_mail(
-                'Pagamento confirmado',
-                'Obrigado por comprar conosco',
-                config("EMAIL_HOST_USER"),
-                [email],
-                fail_silently=False,
-            )
 
         return JsonResponse({"checkout_url": session.url})
     
