@@ -22,14 +22,14 @@ def create_checkout_session(request):
 
         line_items = []
         for item in items:
-            product_id = item.get("product_id")
+            product = item.get("product")
             quantity = item.get("quantity")
 
-            if not product_id or not quantity:
+            if not product or not quantity:
                 return JsonResponse({"error": "Produto ou quantidade inválidos."}, status=400)
 
             try:
-                product = Product.objects.get(id=product_id)
+                product = Product.objects.get(id=product)
             except Product.DoesNotExist:
                 return JsonResponse({"error": "Produto não encontrado."}, status=404)
 

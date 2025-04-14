@@ -1,6 +1,7 @@
 import React from "react";
 import { RootState } from "../../store";
 import { useCheckoutMutation } from "../../services/checkoutApi";
+import { useCreateOrderMutation } from "../../services/orderApi";
 import { formatPrice } from "../../utils/formatPrice";
 import { useNavigate } from "react-router-dom";
 import { useIsAuthenticatedQuery } from "../../services/authApi";
@@ -14,6 +15,7 @@ export const Cart = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const { data, isLoading } = useIsAuthenticatedQuery({});
   const [checkout] = useCheckoutMutation();
+  const [createOrder] = useCreateOrderMutation();
 
   const shippingValue = 0;
 
@@ -21,20 +23,28 @@ export const Cart = () => {
 
   const total = shippingValue + subTotal;
 
+  const formatCartItems = () => {
+    return cartItems.map((item) => ({
+      product: item.product.cardProductId,
+      quantity: item.product.quantity,
+    }));
+  };
+
+  const handleOrder = async () => {
+    return await createOrder({
+      items: formatCartItems(),
+    }).unwrap();
+  };
+
   const handleCheckout = async () => {
     if (!data && !isLoading) {
       navigate("/login");
     } else if (data) {
       try {
-        const formattedItems = cartItems.map((item) => ({
-          product_id: item.product.cardProductId,
-          quantity: item.product.quantity,
-        }));
-
-        console.log(formattedItems);
+        await handleOrder();
 
         const response = await checkout({
-          items: formattedItems,
+          items: formatCartItems(),
         }).unwrap();
         if (response.checkout_url) {
           window.location.href = response.checkout_url;
@@ -57,8 +67,11 @@ export const Cart = () => {
             {cartItems.length !== 1 ? "itens no carrinho" : "item no carrinho"}
           </p>
         </div>
-        {cartItems.map((item, index) => (
-          <ProductCard key={index} product={item.product} />
+        {cartItems.map((item) => (
+          <ProductCard
+            key={item.product.cardProductId}
+            product={item.product}
+          />
         ))}
       </div>
       <div className="second-div">

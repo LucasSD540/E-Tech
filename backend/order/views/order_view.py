@@ -6,17 +6,18 @@ from ..models import Order
 class OrderCreateView(generics.CreateAPIView):
   queryset = Order.objects.all()
   serializer_class = OrderSerializer
-  permission_classes = [AllowAny]
+  permission_classes = [IsAuthenticated]
 
   def perform_create(self, serializer):
-    instance = serializer.save()
-    instance.total_price = (instance.price - instance.discount) * instance.quantity
-    instance.save()
+    serializer.save(customer=self.request.user)
 
 class OrderListView(generics.ListAPIView):
   queryset = Order.objects.all()
   serializer_class = OrderSerializer
   permission_classes = [IsAuthenticated]
+
+  def get_queryset(self):
+    return Order.objects.filter(customer=self.request.user)
 
 class OrderDetailView(generics.RetrieveAPIView):
   queryset = Order.objects.all()
