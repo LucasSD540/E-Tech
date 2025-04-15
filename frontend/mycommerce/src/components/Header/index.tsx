@@ -4,8 +4,8 @@ import { changeIsAuth } from "../../store/slices/loginSlice";
 import { changeOverlay, changePopUp } from "../../store/slices/overlaySlice";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../services/authApi";
-import * as S from "./styles";
 import { RootState } from "../../store";
+import * as S from "./styles";
 
 const logo = "/assets/images/logo.png";
 
@@ -18,6 +18,10 @@ export const Header = () => {
 
   const isAuth = useSelector((state: RootState) => state.isAuth.isAuth);
   const popUp = useSelector((state: RootState) => state.overlay.popUp);
+
+  function refreshPage() {
+    window.location.reload();
+  }
 
   const handlePopUp = () => {
     dispatch(changePopUp(true));
@@ -42,6 +46,7 @@ export const Header = () => {
       dispatch(changePopUp(false));
       navigate("/");
       dispatch(changeIsAuth(false));
+      refreshPage();
     } catch (err) {
       alert("Não foi possível sair da conta!");
       dispatch(changePopUp(false));

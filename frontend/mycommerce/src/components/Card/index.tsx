@@ -1,10 +1,16 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { add } from "../../store/slices/cartSlice";
 import { formatPrice } from "../../utils/formatPrice";
 import { changeProductId } from "../../store/slices/productIdSlice";
+import { useIsAuthenticatedQuery } from "../../services/authApi";
+import {
+  useAddFavoriteMutation,
+  useListFavoriteQuery,
+  useDeleteFavoriteMutation,
+} from "../../services/favoriteApi";
 import * as S from "./styles";
 
 const favorite_red_outline = "/assets/images/favorite_red_outline.png";
@@ -44,13 +50,59 @@ export const Card = ({ product = {} as ProductProps }: ProductItem) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [favorite, setFavorite] = useState(false);
+  const { data, isLoading } = useIsAuthenticatedQuery({});
+  const [favoriteProduct] = useAddFavoriteMutation();
+  const [favoriteRemoveProduct] = useDeleteFavoriteMutation();
+  const { data: favoritesData, refetch: refetchFavorites } =
+    useListFavoriteQuery({});
 
   const handleSetProductId = () => {
     dispatch(changeProductId(cardProductId));
   };
 
+  useEffect(() => {
+    if (favoritesData && favoritesData.length > 0) {
+      const isFavorited = favoritesData.some(
+        (fav: any) => fav.product === cardProductId
+      );
+      setFavorite(isFavorited);
+    }
+  }, [favoritesData, cardProductId]);
+
   const handleFavorite = () => {
-    setFavorite((prevFavorite) => !prevFavorite);
+    if (!favorite) {
+      addFavorite();
+    } else {
+      removeFavorite();
+    }
+  };
+
+  const addFavorite = async () => {
+    if (!data && !isLoading) {
+      navigate("/login");
+    } else if (data) {
+      try {
+        await favoriteProduct({
+          product: cardProductId,
+        }).unwrap();
+
+        setFavorite((prevFavorite) => !prevFavorite);
+        refetchFavorites();
+      } catch (err) {
+        alert(`Não foi possível favoritar o produto: ${err}`);
+      }
+    }
+  };
+
+  const removeFavorite = async () => {
+    try {
+      await favoriteRemoveProduct(cardProductId).unwrap();
+
+      setFavorite((prevFavorite) => !prevFavorite);
+      refetchFavorites();
+    } catch (err) {
+      alert(`Não foi possível remover o favorito do produto: ${err}`);
+    }
   };
 
   const addItem = () => {
