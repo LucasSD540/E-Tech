@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import calculate_shipping
+from .views import calculate_freight
 
 urlpatterns = [
-    path("calculate-shipping/", calculate_shipping, name="calculate-shipping")
+    path("calculate-shipping/", calculate_freight, name="calculate-shipping")
 ]
 

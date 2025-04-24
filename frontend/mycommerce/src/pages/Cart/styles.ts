@@ -46,6 +46,22 @@ export const CartDiv = styled.div`
         font-size: 12px;
       }
     }
+
+    .cep-btn {
+      height: 25px;
+      width: 80px;
+      font-size: 10px;
+      margin-left: 8px;
+      border: none;
+      border-radius: 5px;
+      background: linear-gradient(45deg, #1a73e8, #0058cc);
+      color: #fff;
+      cursor: pointer;
+
+      &:hover {
+        background: linear-gradient(45deg, #0058cc, #1a73e8);
+      }
+    }
   }
 
   .sub-total-p {

@@ -1,1 +1,1 @@
-from .shipping_views import calculate_shipping
+from .shipping_views import calculate_freight

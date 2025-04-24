@@ -14,6 +14,7 @@ def create_checkout_session(request):
     try:
         data = request.data
         email = request.user.email
+        freight = data.get("freight")
         
         items = data.get("items", [])
 
@@ -26,12 +27,12 @@ def create_checkout_session(request):
             quantity = item.get("quantity")
 
             if not product or not quantity:
-                return JsonResponse({"error": "Produto ou quantidade inválidos."}, status=400)
+                return JsonResponse({"error": "Produt or quantity invalid."}, status=400)
 
             try:
                 product = Product.objects.get(id=product)
             except Product.DoesNotExist:
-                return JsonResponse({"error": "Produto não encontrado."}, status=404)
+                return JsonResponse({"error": "Produt not found."}, status=404)
 
             unit_amount = int(product.get_price() * 100)
             line_items.append({
@@ -43,6 +44,19 @@ def create_checkout_session(request):
                     "unit_amount": unit_amount
                 },
                 "quantity": quantity
+            })
+
+        if freight:
+            freight_amount = int(float(freight) * 100)
+            line_items.append({
+                "price_data": {
+                    "currency": "brl",
+                    "product_data": {
+                        "name": "Frete"
+                    },
+                    "unit_amount": freight_amount
+                },
+                "quantity": 1
             })
 
         session = stripe.checkout.Session.create(

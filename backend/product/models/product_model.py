@@ -3,6 +3,7 @@ from category.models import Category
 
 class Product(models.Model):  
   productName = models.CharField(max_length=255)
+  weight = models.DecimalField(max_digits=6, decimal_places=2, default=00.00, help_text="Peso em kg")
   description = models.TextField()
   old_price = models.DecimalField(max_digits=10, decimal_places=2, default=00.00, blank=True)
   price = models.DecimalField(max_digits=10, decimal_places=2)

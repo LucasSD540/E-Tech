@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { RootState } from "../../store";
 import { useCheckoutMutation } from "../../services/checkoutApi";
 import { useCreateOrderMutation } from "../../services/orderApi";
@@ -8,7 +8,9 @@ import { useIsAuthenticatedQuery } from "../../services/authApi";
 import { ProductCard } from "../../components/ProductCard";
 import { getSubTotal } from "../../store/slices/cartSlice";
 import { useSelector } from "react-redux";
+import { IMaskInput } from "react-imask";
 import * as S from "./styles";
+import { useCalculateShippingMutation } from "../../services/shippingApi";
 
 export const Cart = () => {
   const navigate = useNavigate();
@@ -16,8 +18,9 @@ export const Cart = () => {
   const { data, isLoading } = useIsAuthenticatedQuery({});
   const [checkout] = useCheckoutMutation();
   const [createOrder] = useCreateOrderMutation();
-
-  const shippingValue = 0;
+  const [shipping] = useCalculateShippingMutation();
+  const [cep, setCep] = useState("");
+  const [shippingValue, setShippingValue] = useState(0);
 
   const subTotal = useSelector(getSubTotal);
 
@@ -57,6 +60,27 @@ export const Cart = () => {
     }
   };
 
+  const calculateShipping = async () => {
+    if (!data && !isLoading) {
+      navigate("/login");
+    } else if (data) {
+      try {
+        const orderData = {
+          items: formatCartItems(),
+          cep_destino: cep,
+        };
+
+        const response = await shipping({
+          orderData,
+        }).unwrap();
+
+        setShippingValue(response.valor_frete);
+      } catch (err) {
+        alert(`Não foi possível calcular o frete: ${err}`);
+      }
+    }
+  };
+
   return (
     <S.CartDiv className="container">
       <div className="first-div">
@@ -80,11 +104,19 @@ export const Cart = () => {
           <label className="input-label" htmlFor="">
             Calcular frete
           </label>
-          <input
-            className="cep-input"
-            type="text"
-            placeholder="Digite seu CEP"
-          />
+          <div>
+            <IMaskInput
+              className="cep-input"
+              mask="00000-000"
+              value={cep}
+              onAccept={(value: any) => setCep(value)}
+              placeholder="Digite seu CEP"
+              id="cep"
+            />
+            <button className="cep-btn" onClick={calculateShipping}>
+              Calcular
+            </button>
+          </div>
         </div>
         <p className="sub-total-p">Subtotal: {formatPrice(subTotal)}</p>
         <p className="freight-p">Frete: {formatPrice(shippingValue)}</p>

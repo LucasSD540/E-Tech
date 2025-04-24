@@ -6,6 +6,7 @@ import { checkoutApi } from "../services/checkoutApi";
 import { orderApi } from "../services/orderApi";
 import { resetPasswordApi } from "../services/resetPassword";
 import { favoriteApi } from "../services/favoriteApi";
+import { shippingApi } from "../services/shippingApi";
 import productIdReducer from "./slices/productIdSlice";
 import isAuthInReducer from "./slices/loginSlice";
 import cartReducer from "./slices/cartSlice";
@@ -20,6 +21,7 @@ export const store = configureStore({
     [orderApi.reducerPath]: orderApi.reducer,
     [resetPasswordApi.reducerPath]: resetPasswordApi.reducer,
     [favoriteApi.reducerPath]: favoriteApi.reducer,
+    [shippingApi.reducerPath]: shippingApi.reducer,
     productId: productIdReducer,
     isAuth: isAuthInReducer,
     cart: cartReducer,
@@ -33,7 +35,8 @@ export const store = configureStore({
       .concat(checkoutApi.middleware)
       .concat(orderApi.middleware)
       .concat(resetPasswordApi.middleware)
-      .concat(favoriteApi.middleware),
+      .concat(favoriteApi.middleware)
+      .concat(shippingApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

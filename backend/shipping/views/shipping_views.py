@@ -1,72 +1,53 @@
-from django.http import JsonResponse
-from rest_framework.decorators import api_view
 import requests
-from decouple import config
-
-def get_melhor_envio_token():
-    client_id = config("MELHOR_ENVIO_CLIENT_ID")
-    client_secret = config("MELHOR_ENVIO_CLIENT_SECRET")
-
-    url = "https://sandbox.melhorenvio.com.br/api/v2/me/authenticate"
-    
-    data = {
-        "client_id": client_id,
-        "client_secret": client_secret
-    }
-
-    response = requests.post(url, json=data)
-    
-    if response.status_code == 200:
-        token = response.json().get("access_token")
-        return token
-    else:
-        print("Erro ao obter token:", response.json())
-        return None
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from product.models import Product
 
 @api_view(["POST"])
-def calculate_shipping(request):
-  destination_cep = request.data.get("destination_cep")
+def calculate_freight(request):
+    try:
+        order_data = request.data.get("orderData", {})
+        items = order_data.get("items", [])
 
-  if not destination_cep:
-    return JsonResponse({"error": "destination cep is required"}, status=400)
+        if not items:
+            return Response({"error": "The cart is empty"}, status=400)
 
-  api_key = get_melhor_envio_token()
+        valor_pedido = 0
+        peso_total = 0
 
-  if not api_key:
-        return JsonResponse({"error": "Failed to retrieve API token"}, status=500)
+        for item in items:
+            product = item.get("product")
+            quantity = item.get("quantity")
 
-  url = "https://sandbox.melhorenvio.com.br/api/v2/me/shipment/calculate"
+            if not product or not quantity:
+                return Response({"error": "Produt or quantity invalid."}, status=400)
 
-  headers = {
-    "Accept": "application/json",
-    "Content-Type": "application/json",
-    "Authorization": f"Bearer {api_key}",
-    "User-Agent": "Aplicação lucas.souzaduarte.73@gmail.com"
-  }
+            try:
+                product = Product.objects.get(id=product)
+            except Product.DoesNotExist:
+                return Response({"error": "Product not found."}, status=404)
 
-  payload = {
-    "from": {
-        "postal_code": "96020360"
-    },
-    "to": {
-        "postal_code": destination_cep
-    },
-    "package": {
-        "height": 4,
-        "width": 12,
-        "length": 17,
-        "weight": 0.3
-    },
-    "options": {
-        "receipt": False,
-        "own_hand": False
-    },
-    "services": "1,2,18"
-  }
+            valor_pedido += float(product.get_price()) * quantity
+            peso_total += float(product.weight) * quantity
 
-  response = requests.post(url, json=payload, headers=headers)
+        payload = {
+            "cep_origem": "71966-700",
+            "cep_destino": order_data.get("cep_destino"),
+            "peso_total": peso_total,
+            "valor_pedido": valor_pedido
+        }
 
-  if response.status_code == 200:
-    return JsonResponse(response.json(), safe=False)
-  else:
-    return JsonResponse({"error": "calculate shipping failed"}, status=response.status_code, safe=False)
+        response = requests.post("http://localhost:8080/freight/calculate/", json=payload)
+
+        if response.status_code != 200:
+            return Response({"error": "Erro ao consultar a API de frete."}, status=500)
+
+        freight_data = response.json()
+        return Response({
+            "valor_frete": freight_data["valor_frete"],
+            "prazo_dias": freight_data["prazo_dias"]
+        })
+
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
