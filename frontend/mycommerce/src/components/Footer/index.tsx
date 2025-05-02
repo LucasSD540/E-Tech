@@ -24,7 +24,7 @@ export const Footer = () => {
           </li>
         </nav>
         <p className="copy-info">
-          &copy; 2025 MyCommerce. Todos os direitos reservados.
+          &copy; 2025 E-Tech. Todos os direitos reservados.
         </p>
         <p className="dev-info">
           Desenvolvido por Lucas:

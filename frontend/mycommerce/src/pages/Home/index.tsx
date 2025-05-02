@@ -34,7 +34,17 @@ export const Home = () => {
 
   return (
     <S.HomeDiv>
-      <img src={banner} alt="banner-image" />
+      <div className="banner-div">
+        <img className="banner-img" src={banner} alt="banner-image" />
+        <div className="text-div">
+          <div className="container">
+            <h1 className="title-h1">E-Tech</h1>
+            <p className="subtitle-p">
+              Tecnologia descomplicada, escolha personalizada
+            </p>
+          </div>
+        </div>
+      </div>
       <OfferSection />
       {categoryData.map((category: Category, index: number) => (
         <ProductSection

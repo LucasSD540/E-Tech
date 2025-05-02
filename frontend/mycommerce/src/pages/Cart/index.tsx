@@ -21,6 +21,7 @@ export const Cart = () => {
   const [shipping] = useCalculateShippingMutation();
   const [cep, setCep] = useState("");
   const [shippingValue, setShippingValue] = useState(0);
+  const [timeValue, setTimeValue] = useState(0);
 
   const subTotal = useSelector(getSubTotal);
 
@@ -42,12 +43,13 @@ export const Cart = () => {
   const handleCheckout = async () => {
     if (!data && !isLoading) {
       navigate("/login");
-    } else if (data) {
+    } else if (data && timeValue !== 0) {
       try {
         await handleOrder();
 
         const response = await checkout({
           items: formatCartItems(),
+          cep_destino: cep,
         }).unwrap();
         if (response.checkout_url) {
           window.location.href = response.checkout_url;
@@ -57,6 +59,8 @@ export const Cart = () => {
       } catch (err) {
         console.log("Erro ao finalizar compra: ", err);
       }
+    } else if (timeValue === 0) {
+      alert("Para finalizar a compra calcule o frete digitando seu CEP");
     }
   };
 
@@ -75,6 +79,7 @@ export const Cart = () => {
         }).unwrap();
 
         setShippingValue(response.valor_frete);
+        setTimeValue(response.prazo_dias);
       } catch (err) {
         alert(`Não foi possível calcular o frete: ${err}`);
       }
@@ -119,7 +124,10 @@ export const Cart = () => {
           </div>
         </div>
         <p className="sub-total-p">Subtotal: {formatPrice(subTotal)}</p>
-        <p className="freight-p">Frete: {formatPrice(shippingValue)}</p>
+        <div className="freight-time-div">
+          <p className="freight-p">Frete: {formatPrice(shippingValue)}</p>
+          <p className="time-p">Prazo de entrega: {timeValue} dias úteis</p>
+        </div>
         <hr className="line" />
         <p className="total-p">Total: {formatPrice(total)}</p>
         <button

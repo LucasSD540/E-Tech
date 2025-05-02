@@ -75,6 +75,11 @@ export const CartDiv = styled.div`
     font-size: 16px;
   }
 
+  .time-p {
+    color: var(--primary-color);
+    font-size: 16px;
+  }
+
   .line {
     background-color: #000;
     margin: 12px 0;
@@ -102,5 +107,10 @@ export const CartDiv = styled.div`
     &:hover {
       background: linear-gradient(45deg, #0058cc, #1a73e8);
     }
+  }
+
+  .freight-time-div {
+    display: flex;
+    gap: 24px;
   }
 `;

@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from django.core.mail import send_mail
 from decouple import config
 from product.models import Product
+from shipping.utils import calculate_freight_data
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -14,12 +15,18 @@ def create_checkout_session(request):
     try:
         data = request.data
         email = request.user.email
-        freight = data.get("freight")
+        cep_destino = data.get("cep_destino")
         
         items = data.get("items", [])
 
-        if not items:
-            return JsonResponse({"error": "The cart is empty"}, status=400)
+        if not items or not cep_destino:
+            return JsonResponse({"error": "The cart is empty or CEP is missing"}, status=400)
+
+        freight_calculated = calculate_freight_data(items, cep_destino)
+        if "error" in freight_calculated:
+            return JsonResponse({"error": freight_calculated["error"]}, status=500)
+
+        freight_value = float(freight_calculated["valor_frete"])
 
         line_items = []
         for item in items:
@@ -46,18 +53,16 @@ def create_checkout_session(request):
                 "quantity": quantity
             })
 
-        if freight:
-            freight_amount = int(float(freight) * 100)
-            line_items.append({
-                "price_data": {
-                    "currency": "brl",
-                    "product_data": {
-                        "name": "Frete"
-                    },
-                    "unit_amount": freight_amount
+        line_items.append({
+            "price_data": {
+                "currency": "brl",
+                "product_data": {
+                    "name": "Frete"
                 },
-                "quantity": 1
-            })
+                "unit_amount": int(freight_value * 100)
+            },
+            "quantity": 1
+        })
 
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
