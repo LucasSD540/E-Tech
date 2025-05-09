@@ -3,9 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface OverlayState {
   overlay: boolean;
   popUp: boolean;
+  searchOverlay: boolean;
 }
 
-const initialState: OverlayState = { overlay: false, popUp: false };
+const initialState: OverlayState = {
+  overlay: false,
+  popUp: false,
+  searchOverlay: false,
+};
 
 const overlaySlice = createSlice({
   name: "overlay",
@@ -17,8 +22,12 @@ const overlaySlice = createSlice({
     changePopUp: (state, action: PayloadAction<boolean>) => {
       state.popUp = action.payload;
     },
+    changeSearchOverlay: (state, action: PayloadAction<boolean>) => {
+      state.searchOverlay = action.payload;
+    },
   },
 });
 
-export const { changeOverlay, changePopUp } = overlaySlice.actions;
+export const { changeOverlay, changePopUp, changeSearchOverlay } =
+  overlaySlice.actions;
 export default overlaySlice.reducer;

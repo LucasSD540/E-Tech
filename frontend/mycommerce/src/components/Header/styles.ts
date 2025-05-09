@@ -19,8 +19,20 @@ export const HeaderDiv = styled.div`
       }
     }
 
+    .header-input {
+      max-width: 431px;
+      width: 100%;
+      height: 30px;
+      border-radius: 5px;
+      padding-left: 16px;
+      outline: none;
+    }
+
     nav {
+      width: 331.85px;
       display: flex;
+      justify-content: space-between;
+      position: relative;
 
       .link-item {
         color: #fff;
@@ -38,15 +50,10 @@ export const HeaderDiv = styled.div`
         text-decoration: underline;
       }
 
-      .center {
-        margin: 0 24px;
-        position: relative;
-      }
-
       .popUp-div {
         position: absolute;
         top: 30px;
-        left: 0;
+        left: 75px;
         padding: 12px 18px;
         background-color: var(--background-color);
         border-radius: 5px;

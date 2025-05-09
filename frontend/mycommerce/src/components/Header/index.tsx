@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeIsAuth } from "../../store/slices/loginSlice";
-import { changeOverlay, changePopUp } from "../../store/slices/overlaySlice";
+import {
+  changeOverlay,
+  changePopUp,
+  changeSearchOverlay,
+} from "../../store/slices/overlaySlice";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../services/authApi";
 import { RootState } from "../../store";
@@ -26,6 +30,10 @@ export const Header = () => {
   const handlePopUp = () => {
     dispatch(changePopUp(true));
     dispatch(changeOverlay(true));
+  };
+
+  const handleSearch = () => {
+    dispatch(changeSearchOverlay(true));
   };
 
   useEffect(() => {
@@ -59,6 +67,12 @@ export const Header = () => {
         <Link className="img-link" to="/">
           <img src={logo} alt="logo-image" />
         </Link>
+        <input
+          onClick={handleSearch}
+          placeholder="O que você procura?"
+          className="header-input"
+          type="text"
+        />
         <nav>
           <NavLink
             className={({ isActive }) =>
@@ -69,7 +83,7 @@ export const Header = () => {
             Início
           </NavLink>
           {isAuth ? (
-            <li className={`${entry ? "active-link" : ""} link-item center`}>
+            <li className={`${entry ? "active-link" : ""} link-item`}>
               <p onClick={() => handlePopUp()}>Conta</p>
               {popUp && (
                 <div className="popUp-div">
@@ -87,7 +101,7 @@ export const Header = () => {
               )}
             </li>
           ) : (
-            <li className={`${entry ? "active-link" : ""} link-item center`}>
+            <li className={`${entry ? "active-link" : ""} link-item`}>
               <NavLink className="link-item" to="/login">
                 Entrar
               </NavLink>
@@ -100,6 +114,14 @@ export const Header = () => {
             to="/cart"
           >
             Carrinho
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "active-link link-item" : "link-item"
+            }
+            to="/favorites"
+          >
+            Favoritos
           </NavLink>
         </nav>
       </div>
