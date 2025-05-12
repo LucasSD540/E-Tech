@@ -34,6 +34,22 @@ export const HeaderDiv = styled.div`
       justify-content: space-between;
       position: relative;
 
+      .cart {
+        position: relative;
+      }
+
+      .cartItemsNumber-div {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: #1a73e8;
+        font-size: 12px;
+        text-align: center;
+        right: -16px;
+        top: -8px;
+      }
+
       .link-item {
         color: #fff;
         list-style: none;

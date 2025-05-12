@@ -28,6 +28,7 @@ export const Header = () => {
 
   const isAuth = useSelector((state: RootState) => state.isAuth.isAuth);
   const popUp = useSelector((state: RootState) => state.overlay.popUp);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
 
   function refreshPage() {
     window.location.reload();
@@ -160,10 +161,11 @@ export const Header = () => {
           )}
           <NavLink
             className={({ isActive }) =>
-              isActive ? "active-link link-item" : "link-item"
+              isActive ? "active-link link-item cart" : "link-item cart"
             }
             to="/cart"
           >
+            <div className="cartItemsNumber-div">{cartItems.length}</div>
             Carrinho
           </NavLink>
           <NavLink
