@@ -1,12 +1,14 @@
 import React from "react";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFetchCategoryQuery } from "../../services/categoryApi";
 import { useIsAuthenticatedQuery } from "../../services/authApi";
 import { changeIsAuth } from "../../store/slices/loginSlice";
 import { ProductSection } from "../../components/ProductSection";
 import { OfferSection } from "../../components/OfferSection";
+import { RootState } from "../../store";
 import * as S from "./styles";
+import { FilteredSection } from "../../components/FilteredSection";
 
 const banner = "/assets/images/banner.png";
 
@@ -20,6 +22,9 @@ export type Category = {
 
 export const Home = () => {
   const dispatch = useDispatch();
+  const searchTerm = useSelector(
+    (state: RootState) => state.filtered.searchTerm
+  );
 
   const { data: categoryData = [] } = useFetchCategoryQuery({});
   const { data: isAuthData, isLoading } = useIsAuthenticatedQuery({});
@@ -45,17 +50,23 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      <OfferSection />
-      {categoryData.map((category: Category, index: number) => (
-        <ProductSection
-          key={index}
-          id={category.id}
-          categoryName={category.categoryName}
-          promo={category.promo}
-          textcolor="#2E3A59"
-          titlesize="30px"
-        />
-      ))}
+      {searchTerm ? (
+        <FilteredSection />
+      ) : (
+        <>
+          <OfferSection />
+          {categoryData.map((category: Category, index: number) => (
+            <ProductSection
+              key={index}
+              id={category.id}
+              categoryName={category.categoryName}
+              promo={category.promo}
+              textcolor="#2E3A59"
+              titlesize="30px"
+            />
+          ))}
+        </>
+      )}
     </S.HomeDiv>
   );
 };

@@ -11,6 +11,7 @@ import productIdReducer from "./slices/productIdSlice";
 import isAuthInReducer from "./slices/loginSlice";
 import cartReducer from "./slices/cartSlice";
 import overlaySlice from "./slices/overlaySlice";
+import filteredSlice from "./slices/filteredSlice";
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ export const store = configureStore({
     isAuth: isAuthInReducer,
     cart: cartReducer,
     overlay: overlaySlice,
+    filtered: filteredSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

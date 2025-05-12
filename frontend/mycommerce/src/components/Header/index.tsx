@@ -9,6 +9,9 @@ import {
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../services/authApi";
 import { RootState } from "../../store";
+import { useFetchCategoryQuery } from "../../services/categoryApi";
+import { useFetchProductQuery } from "../../services/productApi";
+import { updateFilter } from "../../store/slices/filteredSlice";
 import * as S from "./styles";
 
 const logo = "/assets/images/logo.png";
@@ -18,7 +21,10 @@ export const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [entry, setEntry] = useState(false);
+  const [searchedValue, setSearchedValue] = useState("");
   const [logout] = useLogoutMutation();
+  const { data: categories = [] } = useFetchCategoryQuery({});
+  const { data: products = [] } = useFetchProductQuery({});
 
   const isAuth = useSelector((state: RootState) => state.isAuth.isAuth);
   const popUp = useSelector((state: RootState) => state.overlay.popUp);
@@ -32,8 +38,50 @@ export const Header = () => {
     dispatch(changeOverlay(true));
   };
 
-  const handleSearch = () => {
+  const handleSearchSubmit = () => {
+    dispatch(changeSearchOverlay(false));
+
+    const term = searchedValue
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+    const matchedCategories = categories
+      .filter((cat: any) =>
+        cat.categoryName
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .includes(term)
+      )
+      .map((cat: any) => cat.id);
+
+    const matchedProducts = products
+      .filter((prod: any) =>
+        prod.productName
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .includes(term)
+      )
+      .map((prod: any) => prod.id);
+
+    dispatch(
+      updateFilter({
+        searchTerm: searchedValue,
+        matchedCategoryIds: matchedCategories,
+        matchedProductIds: matchedProducts,
+      })
+    );
+  };
+
+  const handleSearch = (e: any) => {
     dispatch(changeSearchOverlay(true));
+
+    if (e.key === "Enter") {
+      handleSearchSubmit();
+    }
   };
 
   useEffect(() => {
@@ -68,7 +116,10 @@ export const Header = () => {
           <img src={logo} alt="logo-image" />
         </Link>
         <input
-          onClick={handleSearch}
+          onKeyDown={(e: any) => handleSearch(e)}
+          onClick={() => dispatch(changeSearchOverlay(true))}
+          value={searchedValue}
+          onChange={(e: any) => setSearchedValue(e.target.value)}
           placeholder="O que você procura?"
           className="header-input"
           type="text"
