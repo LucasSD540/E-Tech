@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useConfirmResetMutation } from "../../services/resetPassword";
 import { useParams } from "react-router-dom";
 
-// <input placeholder="Confirmar nova senha" type="password" />
-
 export const ResetPassword = () => {
   const { uid, token } = useParams();
   const [new_password, setNew_password] = useState("");

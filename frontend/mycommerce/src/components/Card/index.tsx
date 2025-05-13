@@ -108,7 +108,6 @@ export const Card = ({ product = {} as ProductProps }: ProductItem) => {
   const addItem = () => {
     const productWithQuantity = { ...product, quantity: 1 };
     dispatch(add({ product: productWithQuantity }));
-    navigate("/cart");
   };
 
   return (
@@ -145,7 +144,7 @@ export const Card = ({ product = {} as ProductProps }: ProductItem) => {
         <p className="product-price">{formatPrice(price)}</p>
         <div className="buttons">
           <button onClick={addItem} className="btn btn-1">
-            Comprar
+            Adicionar
           </button>
           <Link
             onClick={handleSetProductId}

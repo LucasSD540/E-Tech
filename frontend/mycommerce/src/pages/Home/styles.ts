@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const HomeDiv = styled.div`
+  padding-top: 60px;
+
   .banner-div {
     position: relative;
 

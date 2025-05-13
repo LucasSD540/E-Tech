@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ProductDetailDiv = styled.div`
-  padding: 64px 0 80px 0;
+  padding: 124px 0 80px 0;
 
   .up-div {
     display: flex;

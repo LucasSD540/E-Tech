@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const LoginDiv = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding: 64px 0 80px 0;
+  padding: 124px 0 80px 0;
 
   .title {
     font-size: 20px;
