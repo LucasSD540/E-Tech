@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+type Props = {
+  percentage: number;
+};
+
 export const ProductDetailDiv = styled.div`
   padding: 124px 0 80px 0;
 
@@ -44,52 +48,14 @@ export const ProductDetailDiv = styled.div`
         max-width: 451px;
         width: 100%;
         height: 286px;
+        border-radius: 10px;
       }
-
-      .price-p {
-        font-size: 26px;
-        font-weight: bold;
-        color: var(--primary-color);
-      }
-    }
-
-    .div-2 {
-      width: 407px;
 
       .name-p {
         font-size: 26px;
         font-weight: bold;
         color: var(--primary-color);
-        margin-bottom: 76px;
-      }
-
-      .shipping-div {
-        margin-bottom: 37px;
-      }
-
-      .cep-input {
-        width: 216px;
-        height: 37px;
-        border-radius: 7px;
-        padding-left: 7px;
-
-        &::placeholder {
-          color: var(--primary-color);
-          font-size: 18px;
-        }
-      }
-
-      .calc-btn {
-        background: linear-gradient(45deg, #1a73e8, #0058cc);
-        color: #fff;
-        height: 37px;
-        width: 145px;
-        font-size: 20px;
-        font-weight: bold;
-        border-radius: 10px;
-        border: none;
-        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-        cursor: pointer;
+        margin-bottom: 24px;
       }
 
       .quantity-input-div {
@@ -126,20 +92,54 @@ export const ProductDetailDiv = styled.div`
         cursor: pointer;
         font-size: 24px;
         font-weight: bold;
+        margin-top: 36px;
+        outline: none;
 
         &:hover {
           background: linear-gradient(45deg, #0058cc, #1a73e8);
         }
       }
+    }
 
-      .add-btn {
-        margin: 37px 0 25px 0;
-        background: linear-gradient(45deg, #509cff, #4495ff);
+    .div-2 {
+      width: 500px;
 
-        &:hover {
-          background: linear-gradient(45deg, #4495ff, #509cff);
-        }
+      .desc-h5 {
+        color: #2e3a59;
+        font-size: 24px;
+        margin-bottom: 48px;
+      }
+
+      .product-info-h3 {
+        color: #2e3a59;
+        font-size: 20px;
+        margin: 36px 0 48px 0;
+      }
+
+      .task-p {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .task-div {
+        margin-bottom: 24px;
       }
     }
   }
+`;
+
+export const BaseProgressBar = styled.div`
+  background-color: #d9d9d9;
+  width: 280px;
+  height: 40px;
+  border-radius: 10px;
+  overflow: hidden;
+`;
+
+export const FilledProgressBar = styled.div<Props>`
+  background-color: #1a73e8;
+  height: 100%;
+  width: ${(props) => `${props.percentage}%`};
+  border-radius: 10px;
+  transition: width 0.3s ease-in-out;
 `;

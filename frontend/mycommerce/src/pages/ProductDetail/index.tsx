@@ -1,23 +1,19 @@
 import React, { useState } from "react";
-import { useIsAuthenticatedQuery } from "../../services/authApi";
-import { useCheckoutMutation } from "../../services/checkoutApi";
-import { ProductProps } from "../../components/Card";
 import { formatPrice } from "../../utils/formatPrice";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useFetchDetailProductQuery } from "../../services/productApi";
 import { add } from "../../store/slices/cartSlice";
+import { ProductProps } from "../../components/Card";
 import * as S from "./styles";
 
 const back = "/assets/images/back_icon.png";
 
 export const ProductDetail = () => {
   let [productQuantity, setProductQuantity] = useState(1);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { data, isLoading } = useIsAuthenticatedQuery({});
-  const [checkout] = useCheckoutMutation();
+  const dispatch = useDispatch();
 
   const productId = useSelector(
     (state: RootState) => state.productId.productId
@@ -40,74 +36,69 @@ export const ProductDetail = () => {
     navigate("/cart");
   };
 
-  const handleCheckout = async () => {
-    if (!data && !isLoading) {
-      navigate("/login");
-    } else if (data) {
-      try {
-        const formattedItem = {
-          name: productDetailData.productName,
-          price: Math.round(Number(productDetailData.price) * 100),
-          quantity: productQuantity,
-        };
-
-        const response = await checkout({ items: [formattedItem] }).unwrap();
-        if (response.checkout_url) {
-          window.location.href = response.checkout_url;
-        } else {
-          alert("Erro ao criar sessão de pagamento!");
-        }
-      } catch (err) {
-        console.log("Erro ao finalizar compra: ", err);
-      }
-    }
-  };
-
   return (
     <S.ProductDetailDiv className="container">
       <div className="up-div">
         <div className="back-div">
           <Link to="/" className="back-btn">
             <img src={back} alt="" />
-            <p>Voltar para a loja</p>
+            <p>Voltar</p>
           </Link>
         </div>
         <div className="info-div">
           <div className="div-1">
             <img src={productDetailData.image_url} alt="" />
-          </div>
-          <div className="div-2">
             <h4 className="name-p">{productDetailData.productName}</h4>
-            <div className="shipping-div flex-div">
-              <input
-                className="cep-input"
-                type="text"
-                placeholder="Digite seu CEP"
-              />
-              <button className="calc-btn">Calcular</button>
-            </div>
-            <div className="quantity-div flex-div">
+            <div className="flex-div">
+              <p className="price-p">
+                {formatPrice(productDetailData.price * productQuantity)}
+              </p>
               <div className="quantity-input-div">
                 <button onClick={increaseQuantity}>+</button>
                 <p>{productQuantity}</p>
                 <button onClick={decreaseQuantity}>-</button>
               </div>
-              <p className="price-p">{formatPrice(productDetailData.price)}</p>
             </div>
             <button
-              className="btn add-btn"
+              className="btn buy-btn"
               onClick={() => addItem(productDetailData)}
             >
-              Adicionar ao Carrinho
+              Adicionar
             </button>
-            <button className="btn buy-btn" onClick={handleCheckout}>
-              Comprar
-            </button>
+          </div>
+          <div className="div-2">
+            <h5 className="desc-h5">Descrição do produto</h5>
+            <p>{productDetailData.description}</p>
+            <h3 className="product-info-h3">
+              Performance do produto nas seguintes categorias
+            </h3>
+            <div className="flex-div task-div">
+              <p className="task-p">Atividade 1</p>
+              <S.BaseProgressBar>
+                <S.FilledProgressBar percentage={95} />
+              </S.BaseProgressBar>
+            </div>
+            <div className="flex-div task-div">
+              <p className="task-p">Atividade 2</p>
+              <S.BaseProgressBar>
+                <S.FilledProgressBar percentage={50} />
+              </S.BaseProgressBar>
+            </div>
+            <div className="flex-div task-div">
+              <p className="task-p">Atividade 3</p>
+              <S.BaseProgressBar>
+                <S.FilledProgressBar percentage={90} />
+              </S.BaseProgressBar>
+            </div>
+            <div className="flex-div task-div">
+              <p className="task-p">Atividade 4</p>
+              <S.BaseProgressBar>
+                <S.FilledProgressBar percentage={87} />
+              </S.BaseProgressBar>
+            </div>
           </div>
         </div>
       </div>
-      <h5>Descrição do produto</h5>
-      <p>{productDetailData.description}</p>
     </S.ProductDetailDiv>
   );
 };
