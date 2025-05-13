@@ -11,7 +11,7 @@ import { useLogoutMutation } from "../../services/authApi";
 import { RootState } from "../../store";
 import { useFetchCategoryQuery } from "../../services/categoryApi";
 import { useFetchProductQuery } from "../../services/productApi";
-import { updateFilter } from "../../store/slices/filteredSlice";
+import { clearFilter, updateFilter } from "../../store/slices/filteredSlice";
 import * as S from "./styles";
 
 const logo = "/assets/images/logo.png";
@@ -113,7 +113,11 @@ export const Header = () => {
   return (
     <S.HeaderDiv>
       <div className="container">
-        <Link className="img-link" to="/">
+        <Link
+          onClick={() => dispatch(clearFilter())}
+          className="img-link"
+          to="/"
+        >
           <img src={logo} alt="logo-image" />
         </Link>
         <input
