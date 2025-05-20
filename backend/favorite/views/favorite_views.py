@@ -25,10 +25,10 @@ class FavoriteListView(generics.ListAPIView):
 class FavoriteRemoveView(APIView):
   permission_classes = [IsAuthenticated]
 
-  def delete(self, request, product_id):
+  def delete(self, request, favorite_id):
     favorite = Favorite.objects.filter(
+      id=favorite_id,
       customer=request.user,
-      product_id=product_id
     ).first()
 
     if favorite:

@@ -7,6 +7,7 @@ import { ProductDetail } from "./pages/ProductDetail";
 import { Success } from "./pages/Success";
 import { ResetPassword } from "./pages/ResetPassword";
 import { SendEmail } from "./pages/SendEmail";
+import { Favorites } from "./pages/Favorites";
 
 export const Routing = () => {
   return (
@@ -15,6 +16,7 @@ export const Routing = () => {
       <Route path="/userHome" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/favorites" element={<Favorites />} />
       <Route path="/product-detail/:id" element={<ProductDetail />} />
       <Route path="/success" element={<Success />} />
       <Route path="/send-email" element={<SendEmail />} />
