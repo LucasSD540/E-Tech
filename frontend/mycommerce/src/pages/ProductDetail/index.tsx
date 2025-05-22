@@ -45,7 +45,7 @@ export const ProductDetail = () => {
             <p>Voltar</p>
           </Link>
         </div>
-        <div className="info-div">
+        <div className="product-info-div">
           <div className="div-1">
             <img src={productDetailData.image_url} alt="" />
             <h4 className="name-p">{productDetailData.productName}</h4>

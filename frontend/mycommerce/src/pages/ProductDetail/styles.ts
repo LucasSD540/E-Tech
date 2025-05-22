@@ -34,7 +34,7 @@ export const ProductDetailDiv = styled.div`
     }
   }
 
-  .info-div {
+  .product-info-div {
     display: flex;
     justify-content: space-between;
     margin-bottom: 48px;
