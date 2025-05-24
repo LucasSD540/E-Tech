@@ -53,6 +53,7 @@ export const ProductCarouselByIds = ({ productIds }: Props) => {
       >
         {filteredProducts.map((product: any, index: number) => {
           const productItem = {
+            id: product.id,
             cardProductId: product.id,
             quantity: product.quantity,
             promo: product.old_price > product.price,

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { formatPrice } from "../../utils/formatPrice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useFetchDetailProductQuery } from "../../services/productApi";
-import { add } from "../../store/slices/cartSlice";
+import { add, removeById } from "../../store/slices/cartSlice";
 import { ProductProps } from "../../components/Card";
 import * as S from "./styles";
 
@@ -12,15 +12,15 @@ const back = "/assets/images/back_icon.png";
 
 export const ProductDetail = () => {
   let [productQuantity, setProductQuantity] = useState(1);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const productId = useSelector(
-    (state: RootState) => state.productId.productId
-  );
+  const id = useSelector((state: RootState) => state.productId.productId);
 
-  const { data: productDetailData = [] } =
-    useFetchDetailProductQuery(productId);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+
+  const isInCart = cartItems.some((item) => item.product.id === id);
+
+  const { data: productDetailData } = useFetchDetailProductQuery(id);
 
   const increaseQuantity = () => {
     productQuantity < 10 && setProductQuantity((productQuantity += 1));
@@ -32,9 +32,18 @@ export const ProductDetail = () => {
 
   const addItem = (product: ProductProps) => {
     const productWithQuantity = { ...product, quantity: productQuantity };
+    console.log("Produto adicionado ao carrinho:", productWithQuantity);
     dispatch(add({ product: productWithQuantity }));
-    navigate("/cart");
   };
+
+  const removeItem = (id: number) => {
+    console.log("Item a ser removido: ", id);
+    dispatch(removeById(id));
+  };
+
+  if (!productDetailData) {
+    return <p>Carregando produto...</p>;
+  }
 
   return (
     <S.ProductDetailDiv className="container">
@@ -61,9 +70,13 @@ export const ProductDetail = () => {
             </div>
             <button
               className="btn buy-btn"
-              onClick={() => addItem(productDetailData)}
+              onClick={
+                isInCart
+                  ? () => removeItem(id)
+                  : () => addItem(productDetailData)
+              }
             >
-              Adicionar
+              {isInCart ? "Remover" : "Adicionar"}
             </button>
           </div>
           <div className="div-2">

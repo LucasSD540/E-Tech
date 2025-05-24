@@ -1,8 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
 import { Link, useNavigate } from "react-router-dom";
-import { add } from "../../store/slices/cartSlice";
+import { add, removeById } from "../../store/slices/cartSlice";
 import { formatPrice } from "../../utils/formatPrice";
 import { changeProductId } from "../../store/slices/productIdSlice";
 import { useIsAuthenticatedQuery } from "../../services/authApi";
@@ -20,6 +21,7 @@ const favorite_blue = "/assets/images/favorite_blue.png";
 const promo_icon = "/assets/images/promo_icon.png";
 
 export type ProductProps = {
+  id: number;
   quantity: number;
   promo: boolean;
   productName: string;
@@ -55,6 +57,12 @@ export const Card = ({ product = {} as ProductProps }: ProductItem) => {
   const [favoriteRemoveProduct] = useDeleteFavoriteMutation();
   const { data: favoritesData, refetch: refetchFavorites } =
     useListFavoriteQuery({});
+
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+
+  const isInCart = cartItems.some(
+    (item) => item.product.cardProductId === product.cardProductId
+  );
 
   const handleSetProductId = () => {
     dispatch(changeProductId(cardProductId));
@@ -110,6 +118,8 @@ export const Card = ({ product = {} as ProductProps }: ProductItem) => {
     dispatch(add({ product: productWithQuantity }));
   };
 
+  const removeItem = () => dispatch(removeById(product.cardProductId));
+
   return (
     <S.CardDiv promo={promo}>
       <div className="product-img-div">
@@ -143,8 +153,11 @@ export const Card = ({ product = {} as ProductProps }: ProductItem) => {
         </p>
         <p className="product-price">{formatPrice(price)}</p>
         <div className="buttons">
-          <button onClick={addItem} className="btn btn-1">
-            Adicionar
+          <button
+            onClick={isInCart ? removeItem : addItem}
+            className="btn btn-1"
+          >
+            {isInCart ? "Remover" : "Adicionar"}
           </button>
           <Link
             onClick={handleSetProductId}
