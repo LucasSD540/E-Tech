@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.tokens import default_token_generator
@@ -7,6 +8,7 @@ from django.contrib.auth import get_user_model
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from decouple import config
+from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
@@ -49,3 +51,56 @@ class PasswordResetConfirmView(APIView):
                 return Response({"error": "Token inválido ou expirado."}, status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
             return Response({"error": "Usuário não encontrado."}, status=status.HTTP_404_NOT_FOUND)
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        current_password = request.data.get("current_password")
+        new_password = request.data.get("new_password")
+        confirm_password = request.data.get("confirm_password")
+
+        if not user.check_password(current_password):
+            return Response({"error": "Senha atual incorreta."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if new_password != confirm_password:
+            return Response({"error": "As novas senhas não coincidem."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if current_password == new_password:
+            return Response({"error": "A nova senha deve ser diferente da atual."}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.set_password(new_password)
+        user.save()
+
+        refresh_token = request.COOKIES.get("refresh_token")
+        if refresh_token:
+            try:
+                refresh = RefreshToken(refresh_token)
+                refresh.blacklist()
+            except Exception:
+                pass
+
+        response = Response({"message": "Senha alterada com sucesso. Faça login novamente."}, status=status.HTTP_200_OK)
+
+        response.delete_cookie("access_token", path="/")
+        response.delete_cookie("refresh_token", path="/")
+
+        response.set_cookie(
+            key="access_token",
+            value="",
+            httponly=True,
+            secure=True,
+            samesite="None",
+            path="/"
+        )
+        response.set_cookie(
+            key="refresh_token",
+            value="",
+            httponly=True,
+            secure=True,
+            samesite="None",
+            path="/"
+        )
+
+        return response

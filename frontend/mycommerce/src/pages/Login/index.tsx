@@ -33,6 +33,7 @@ export const Login = () => {
 
     try {
       await register({ first_name, last_name, email, password }).unwrap();
+      alert("Conta criada com sucesso!");
     } catch (err: any) {
       if (err.status === 400 && err.data?.email) {
         alert("Este e-mail já está em uso. Tente outro.");
@@ -95,8 +96,8 @@ export const Login = () => {
       <div className="div-2">
         <Formik
           initialValues={{
-            firstName: "",
-            lastName: "",
+            first_name: "",
+            last_name: "",
             email: "",
             password: "",
             confirmPassword: "",
@@ -110,26 +111,26 @@ export const Login = () => {
             </div>
             <div>
               <Field
-                name="firstName"
+                name="first_name"
                 className="styled-input"
                 type="text"
                 placeholder="Nome"
               />
               <ErrorMessage
-                name="firstName"
+                name="first_name"
                 component="div"
                 className="error-message"
               />
             </div>
             <div>
               <Field
-                name="lastName"
+                name="last_name"
                 className="styled-input"
                 type="text"
                 placeholder="Sobrenome"
               />
               <ErrorMessage
-                name="lastName"
+                name="last_name"
                 component="div"
                 className="error-message"
               />

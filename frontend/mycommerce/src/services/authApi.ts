@@ -34,6 +34,18 @@ export const authApi = createApi({
         url: "auth/me/",
       }),
     }),
+    deleteAccount: builder.mutation({
+      query: () => ({
+        url: "delete/",
+        method: "DELETE",
+      }),
+    }),
+    changePassword: builder.mutation({
+      query: () => ({
+        url: "change-password/",
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -42,4 +54,6 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useIsAuthenticatedQuery,
+  useDeleteAccountMutation,
+  useChangePasswordMutation,
 } = authApi;

@@ -144,8 +144,8 @@ export const Header = () => {
               {popUp && (
                 <div className="popUp-div">
                   <p className="link-item first">
-                    <NavLink className="link" to="/account-detail">
-                      Dados da conta
+                    <NavLink className="link" to="/edit-account">
+                      Editar conta
                     </NavLink>
                   </p>
                   <p onClick={handleLogout} className="link-item second">
