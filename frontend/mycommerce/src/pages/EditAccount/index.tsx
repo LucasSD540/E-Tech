@@ -1,37 +1,36 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Field, Form, Formik, ErrorMessage } from "formik";
-import { validationSchemaChangePassword } from "../../utils/validationSchema";
 import {
-  useDeleteAccountMutation,
+  validationSchemaChangeInfo,
+  validationSchemaChangePassword,
+} from "../../utils/validationSchema";
+import {
+  useChangeInfoMutation,
   useChangePasswordMutation,
 } from "../../services/authApi";
-import { changeIsAuth } from "../../store/slices/loginSlice";
 import "./styles.css";
 
 export const EditAccount = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [deleteAccount] = useDeleteAccountMutation();
   const [changePassword] = useChangePasswordMutation();
+  const [changeInfo] = useChangeInfoMutation();
 
-  const handleDelete = async () => {
+  const handleChangeInfo = async (values: any, { resetForm }: any) => {
+    const { first_name } = values;
+
     try {
-      await deleteAccount({}).unwrap();
-      alert("Sua conta foi excluída com sucesso!");
+      await changeInfo({ first_name }).unwrap();
+      alert("Informações alteradas com sucesso!");
       navigate("/");
-      dispatch(changeIsAuth(false));
-      window.location.reload();
     } catch (err) {
-      alert(`Não foi possível excluir sua conta: ${err}`);
+      alert(`Não foi possível alterar as informações: ${err}`);
+      resetForm();
     }
   };
 
   const handleChangePassword = async (values: any, { resetForm }: any) => {
     const { current_password, new_password, confirm_password } = values;
-
-    console.log(values);
 
     try {
       await changePassword({
@@ -48,15 +47,41 @@ export const EditAccount = () => {
     }
   };
 
+  const confirmDelete = () => {
+    navigate("/confirm-delete");
+  };
+
   return (
     <div className="container section-container">
       <div className="account-div-1">
         <h3 className="section-title">Minha conta</h3>
         <p className="subTitle">Informações pessoais</p>
-        <input className="name-input btn-name" type="text" placeholder="Nome" />
-        <button className="btn-style btn-save">Salvar Informações</button>
+        <Formik
+          initialValues={{
+            first_name: "",
+          }}
+          onSubmit={handleChangeInfo}
+          validationSchema={validationSchemaChangeInfo}
+        >
+          <Form>
+            <Field
+              name="first_name"
+              type="text"
+              placeholder="Nome"
+              className="name-input btn-name"
+            />
+            <ErrorMessage
+              name="first_name"
+              component="div"
+              className="error-message"
+            />
+            <button type="submit" className="btn-style btn-save">
+              Salvar Informações
+            </button>
+          </Form>
+        </Formik>
         <p className="subTitle close-account">Deseja encerrar sua conta?</p>
-        <button onClick={handleDelete} className="btn-close">
+        <button onClick={confirmDelete} className="btn-close">
           Encerrar conta
         </button>
       </div>

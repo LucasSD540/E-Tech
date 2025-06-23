@@ -47,6 +47,13 @@ export const authApi = createApi({
         body: data,
       }),
     }),
+    changeInfo: builder.mutation({
+      query: (data) => ({
+        url: "update/",
+        method: "PATCH",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -57,4 +64,5 @@ export const {
   useIsAuthenticatedQuery,
   useDeleteAccountMutation,
   useChangePasswordMutation,
+  useChangeInfoMutation,
 } = authApi;

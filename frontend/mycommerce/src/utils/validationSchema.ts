@@ -19,6 +19,10 @@ export const validationSchemaRegister = Yup.object({
     .required("Confirmação de senha é obrigatória"),
 });
 
+export const validationSchemaChangeInfo = Yup.object({
+  first_name: Yup.string().required("Campo obrigatório"),
+});
+
 export const validationSchemaChangePassword = Yup.object({
   current_password: Yup.string().required("Senha obrigatória"),
   new_password: Yup.string().required("Senha obrigatória"),

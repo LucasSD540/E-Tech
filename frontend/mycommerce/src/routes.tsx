@@ -9,6 +9,7 @@ import { ResetPassword } from "./pages/ResetPassword";
 import { SendEmail } from "./pages/SendEmail";
 import { Favorites } from "./pages/Favorites";
 import { EditAccount } from "./pages/EditAccount";
+import { DeleteAccount } from "./pages/DeleteAccount";
 
 export const Routing = () => {
   return (
@@ -23,6 +24,7 @@ export const Routing = () => {
       <Route path="/send-email" element={<SendEmail />} />
       <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
       <Route path="/edit-account" element={<EditAccount />} />
+      <Route path="/confirm-delete" element={<DeleteAccount />} />
     </Routes>
   );
 };

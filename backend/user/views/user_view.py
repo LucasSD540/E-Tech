@@ -1,6 +1,5 @@
 from rest_framework import generics
 from rest_framework_simplejwt.tokens import RefreshToken
-
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -28,9 +27,18 @@ class UserDetailView(APIView):
     return Response(serializer.data)
 
 class UserUpdateView(generics.UpdateAPIView):
-  queryset = Account.objects.all()
-  serializer_class = UserSerializer
   permission_classes = [IsAuthenticated]
+
+  def patch(self, request):
+    user = request.user
+    serializer = UserSerializer(user, data=request.data, partial=True)
+
+    if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserDeleteView(APIView):
     permission_classes = [IsAuthenticated]
