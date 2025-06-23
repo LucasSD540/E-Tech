@@ -22,6 +22,7 @@ export const EditAccount = () => {
       alert("Sua conta foi excluída com sucesso!");
       navigate("/");
       dispatch(changeIsAuth(false));
+      window.location.reload();
     } catch (err) {
       alert(`Não foi possível excluir sua conta: ${err}`);
     }
@@ -38,7 +39,9 @@ export const EditAccount = () => {
         new_password,
         confirm_password,
       }).unwrap();
-      resetForm();
+      alert("Senha alterada com sucesso! Faça login novamente.");
+      navigate("/login");
+      window.location.reload();
     } catch (err) {
       alert(`Não foi possível alterar sua senha: ${err}`);
       resetForm();

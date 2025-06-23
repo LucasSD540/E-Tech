@@ -61,6 +61,11 @@ class ChangePasswordView(APIView):
         new_password = request.data.get("new_password")
         confirm_password = request.data.get("confirm_password")
 
+        print("Usuário autenticado?", request.user.is_authenticated)
+        print("Usuário atual:", request.user.email)
+        print("Senha recebida:", current_password)
+        print("Senha confere?", request.user.check_password(current_password))
+
         if not user.check_password(current_password):
             return Response({"error": "Senha atual incorreta."}, status=status.HTTP_400_BAD_REQUEST)
 
