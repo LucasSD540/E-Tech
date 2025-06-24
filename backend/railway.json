@@ -5,6 +5,6 @@
   },
   "deploy": {
     "startCommand": "gunicorn mycommerce.wsgi:application --log-file -",
-    "releaseCommand": "python manage.py collectstatic --noinput && python manage.py migrate --noinput"
+    "releaseCommand": "python3 manage.py collectstatic --noinput && python3 manage.py migrate --noinput"
   }
 }
