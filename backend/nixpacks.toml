@@ -1,11 +1,7 @@
 [phases.setup]
-commands = ["echo Setting up Python environment"]
-
-[phases.install]
-commands = ["python3 -m pip install --upgrade pip", "python3 -m pip install -r requirements.txt"]
-
-[phases.build]
-commands = []
-
-[phases.start]
-commands = ["python3 manage.py runserver 0.0.0.0:$PORT"]
+nixPkgs = [
+    "pkgs.mariadb-connector-c",
+    "pkgs.pkg-config",
+    "pkgs.gcc",
+    "pkgs.gnumake",
+]
