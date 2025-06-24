@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { RootState } from "../../store";
-import { useCheckoutMutation } from "../../services/checkoutApi";
-import { useCreateOrderMutation } from "../../services/orderApi";
 import { formatPrice } from "../../utils/formatPrice";
 import { useNavigate } from "react-router-dom";
 import { useIsAuthenticatedQuery } from "../../services/authApi";
@@ -16,8 +14,6 @@ export const Cart = () => {
   const navigate = useNavigate();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const { data, isLoading } = useIsAuthenticatedQuery({});
-  const [checkout] = useCheckoutMutation();
-  const [createOrder] = useCreateOrderMutation();
   const [shipping] = useCalculateShippingMutation();
   const [cep, setCep] = useState("");
   const [shippingValue, setShippingValue] = useState(0);
@@ -32,36 +28,6 @@ export const Cart = () => {
       product: item.product.cardProductId,
       quantity: item.product.quantity,
     }));
-  };
-
-  const handleOrder = async () => {
-    return await createOrder({
-      items: formatCartItems(),
-    }).unwrap();
-  };
-
-  const handleCheckout = async () => {
-    if (!data && !isLoading) {
-      navigate("/login");
-    } else if (data && timeValue !== 0) {
-      try {
-        await handleOrder();
-
-        const response = await checkout({
-          items: formatCartItems(),
-          cep_destino: cep,
-        }).unwrap();
-        if (response.checkout_url) {
-          window.location.href = response.checkout_url;
-        } else {
-          alert("Erro ao criar sessão de pagamento!");
-        }
-      } catch (err) {
-        console.log("Erro ao finalizar compra: ", err);
-      }
-    } else if (timeValue === 0) {
-      alert("Para finalizar a compra calcule o frete digitando seu CEP");
-    }
   };
 
   const calculateShipping = async () => {
@@ -80,10 +46,33 @@ export const Cart = () => {
 
         setShippingValue(response.valor_frete);
         setTimeValue(response.prazo_dias);
+        localStorage.setItem("checkout_cep", cep);
+        localStorage.setItem("checkout_time", response.prazo_dias.toString());
+        localStorage.setItem(
+          "checkout_shipping",
+          response.valor_frete.toString()
+        );
       } catch (err) {
         alert(`Não foi possível calcular o frete: ${err}`);
       }
     }
+  };
+
+  const handleGoToCheckout = () => {
+    if (cartItems.length === 0) {
+      alert("Seu carrinho está vazio.");
+      return;
+    }
+
+    if (shippingValue === 0 || timeValue === 0) {
+      alert("Por favor, calcule o frete antes de continuar.");
+      return;
+    }
+
+    localStorage.setItem("checkout_cep", cep);
+    localStorage.setItem("checkout_time", timeValue.toString());
+
+    navigate("/delivery-address");
   };
 
   return (
@@ -133,7 +122,7 @@ export const Cart = () => {
         <button
           disabled={total > 0 ? false : true}
           className="finish-btn"
-          onClick={() => navigate("/delivery-address")}
+          onClick={handleGoToCheckout}
         >
           Finalizar Compra
         </button>
