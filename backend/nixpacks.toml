@@ -1,2 +1,5 @@
 [phases.setup]
-nixPkgs = ["mysql", "pkg-config"]
+packages = ["mariadb", "mariadb.dev"]
+
+[phases.install]
+commands = ["pip install -r requirements.txt"]
