@@ -30,6 +30,7 @@ class AccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser):
   email = models.EmailField(max_length=254, unique=True)
+  cpf = models.CharField(max_length=11, unique=True, null=True, blank=True)
   first_name = models.CharField(max_length=128)
   last_name = models.CharField(max_length=128)
   profile_picture = models.ImageField(upload_to=None, blank=True, null=True)

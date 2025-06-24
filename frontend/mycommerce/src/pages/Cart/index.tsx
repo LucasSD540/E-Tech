@@ -133,7 +133,7 @@ export const Cart = () => {
         <button
           disabled={total > 0 ? false : true}
           className="finish-btn"
-          onClick={handleCheckout}
+          onClick={() => navigate("/delivery-address")}
         >
           Finalizar Compra
         </button>

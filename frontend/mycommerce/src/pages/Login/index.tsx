@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { IMaskInput } from "react-imask";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import {
   validationSchemaLogin,
@@ -29,10 +30,10 @@ export const Login = () => {
   };
 
   const handleRegister = async (values: any, { resetForm }: any) => {
-    const { first_name, last_name, email, password } = values;
+    const { first_name, last_name, cpf, email, password } = values;
 
     try {
-      await register({ first_name, last_name, email, password }).unwrap();
+      await register({ first_name, last_name, cpf, email, password }).unwrap();
       alert("Conta criada com sucesso!");
     } catch (err: any) {
       if (err.status === 400 && err.data?.email) {
@@ -98,6 +99,7 @@ export const Login = () => {
           initialValues={{
             first_name: "",
             last_name: "",
+            cpf: "",
             email: "",
             password: "",
             confirmPassword: "",
@@ -131,6 +133,28 @@ export const Login = () => {
               />
               <ErrorMessage
                 name="last_name"
+                component="div"
+                className="error-message"
+              />
+            </div>
+            <div>
+              <Field name="cpf">
+                {({ field, form }: any) => (
+                  <IMaskInput
+                    {...field}
+                    mask="000.000.000-00"
+                    unmask={true}
+                    placeholder="CPF"
+                    className="styled-input"
+                    onAccept={(value: string) =>
+                      form.setFieldValue(field.name, value)
+                    }
+                    onBlur={field.onBlur}
+                  />
+                )}
+              </Field>
+              <ErrorMessage
+                name="cpf"
                 component="div"
                 className="error-message"
               />

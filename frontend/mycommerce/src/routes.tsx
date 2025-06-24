@@ -10,6 +10,7 @@ import { SendEmail } from "./pages/SendEmail";
 import { Favorites } from "./pages/Favorites";
 import { EditAccount } from "./pages/EditAccount";
 import { DeleteAccount } from "./pages/DeleteAccount";
+import { DeliveryAddress } from "./pages/DeliveryAddress";
 
 export const Routing = () => {
   return (
@@ -25,6 +26,7 @@ export const Routing = () => {
       <Route path="/reset-password/:uid/:token" element={<ResetPassword />} />
       <Route path="/edit-account" element={<EditAccount />} />
       <Route path="/confirm-delete" element={<DeleteAccount />} />
+      <Route path="/delivery-address" element={<DeliveryAddress />} />
     </Routes>
   );
 };
