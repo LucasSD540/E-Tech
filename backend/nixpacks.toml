@@ -1,5 +1,11 @@
 [phases.setup]
-packages = ["mariadb", "mariadb.dev"]
+commands = ["echo Setting up Python environment"]
 
 [phases.install]
-commands = ["pip install -r requirements.txt"]
+commands = ["python3 -m pip install --upgrade pip", "python3 -m pip install -r requirements.txt"]
+
+[phases.build]
+commands = []
+
+[phases.start]
+commands = ["python3 manage.py runserver 0.0.0.0:$PORT"]
