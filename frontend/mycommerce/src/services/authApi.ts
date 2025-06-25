@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://127.0.0.1:8000/api/user/",
+  baseUrl: process.env.REACT_APP_API_URL,
   credentials: "include",
 });
 
@@ -11,45 +11,45 @@ export const authApi = createApi({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (userCredentials) => ({
-        url: "auth/login/",
+        url: "/api/user/auth/login/",
         method: "POST",
         body: userCredentials,
       }),
     }),
     logout: builder.mutation({
       query: () => ({
-        url: "auth/logout/",
+        url: "/api/user/auth/logout/",
         method: "POST",
       }),
     }),
     register: builder.mutation({
       query: (userData) => ({
-        url: "create/",
+        url: "/api/user/create/",
         method: "POST",
         body: userData,
       }),
     }),
     isAuthenticated: builder.query({
       query: () => ({
-        url: "auth/me/",
+        url: "/api/user/auth/me/",
       }),
     }),
     deleteAccount: builder.mutation({
       query: () => ({
-        url: "delete/",
+        url: "/api/user/delete/",
         method: "DELETE",
       }),
     }),
     changePassword: builder.mutation({
       query: (data) => ({
-        url: "change-password/",
+        url: "/api/user/change-password/",
         method: "POST",
         body: data,
       }),
     }),
     changeInfo: builder.mutation({
       query: (data) => ({
-        url: "update/",
+        url: "/api/user/update/",
         method: "PATCH",
         body: data,
       }),
