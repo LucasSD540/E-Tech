@@ -2,6 +2,7 @@ from datetime import timedelta
 from django.core.mail import send_mail
 from pathlib import Path
 from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,12 +81,7 @@ WSGI_APPLICATION = 'mycommerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': config('MYSQLDATABASE'),
-        'USER': config('MYSQLUSER'),
-        'PASSWORD': config('MYSQLPASSWORD'),
-        "HOST": config('MYSQLHOST'),
-        "PORT": config('MYSQLPORT', default='3306'),
+        'default': dj_database_url.parse(config('DATABASE_URL'))
     }
 }
 
