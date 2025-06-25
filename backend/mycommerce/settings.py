@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'mycommerce.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
-        'NAME': config('MYSQL_DATABASE'),
-        'USER': config('MYSQL_USER'),
-        'PASSWORD': config('MYSQL_PASSWORD'),
-        "HOST": config('MYSQL_HOST'),
-        "PORT": "3306",
+        'NAME': config('MYSQLDATABASE'),
+        'USER': config('MYSQLUSER'),
+        'PASSWORD': config('MYSQLPASSWORD'),
+        "HOST": config('MYSQLHOST'),
+        "PORT": config('MYSQLPORT', default='3306'),
     }
 }
 
