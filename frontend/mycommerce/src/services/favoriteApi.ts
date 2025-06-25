@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://127.0.0.1:8000/api/favorite/",
+  baseUrl: process.env.REACT_APP_API_URL,
   credentials: "include",
 });
 
@@ -11,19 +11,19 @@ export const favoriteApi = createApi({
   endpoints: (builder) => ({
     addFavorite: builder.mutation({
       query: (productId) => ({
-        url: "create/",
+        url: "api/favorite/create/",
         method: "POST",
         body: productId,
       }),
     }),
     listFavorite: builder.query({
       query: () => ({
-        url: "list/",
+        url: "api/favorite/list/",
       }),
     }),
     deleteFavorite: builder.mutation({
       query: (productId) => ({
-        url: `delete/${productId}/`,
+        url: `api/favorite/delete/${productId}/`,
         method: "DELETE",
       }),
     }),

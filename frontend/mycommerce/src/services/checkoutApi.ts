@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://127.0.0.1:8000/api/payments/",
+  baseUrl: process.env.REACT_APP_API_URL,
   credentials: "include",
 });
 
@@ -11,7 +11,7 @@ export const checkoutApi = createApi({
   endpoints: (builder) => ({
     checkout: builder.mutation({
       query: (orderData) => ({
-        url: "create-checkout-session/",
+        url: "api/payments/create-checkout-session/",
         method: "POST",
         body: orderData,
       }),

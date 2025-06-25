@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://127.0.0.1:8000/api/order/",
+  baseUrl: process.env.REACT_APP_API_URL,
   credentials: "include",
 });
 
@@ -11,7 +11,7 @@ export const orderApi = createApi({
   endpoints: (builder) => ({
     createOrder: builder.mutation({
       query: (orderData) => ({
-        url: "create/",
+        url: "api/order/create/",
         method: "POST",
         body: orderData,
       }),
