@@ -24,7 +24,7 @@ export const Login = () => {
       await login({ email, password }).unwrap();
       navigate("/");
     } catch (err) {
-      alert(`Erro ao fazer login: ${err}`);
+      alert("Erro ao fazer login! Verifique os dados e tente novamente.");
       resetForm();
     }
   };
@@ -65,6 +65,7 @@ export const Login = () => {
                 className="styled-input"
                 type="text"
                 placeholder="E-mail"
+                data-cy="email-login"
               />
               <ErrorMessage
                 name="email"
@@ -78,6 +79,7 @@ export const Login = () => {
                 className="styled-input password"
                 type="password"
                 placeholder="Senha"
+                data-cy="password-login"
               />
               <ErrorMessage
                 name="password"
@@ -88,7 +90,7 @@ export const Login = () => {
             <Link to="/send-email">
               <p className="forgot-link">Esqueceu sua senha?</p>
             </Link>
-            <button type="submit" className="styled-btn">
+            <button type="submit" className="styled-btn" data-cy="btn-login">
               Entrar
             </button>
           </Form>
@@ -117,6 +119,7 @@ export const Login = () => {
                 className="styled-input"
                 type="text"
                 placeholder="Nome"
+                data-cy="first-name"
               />
               <ErrorMessage
                 name="first_name"
@@ -130,6 +133,7 @@ export const Login = () => {
                 className="styled-input"
                 type="text"
                 placeholder="Sobrenome"
+                data-cy="last-name"
               />
               <ErrorMessage
                 name="last_name"
@@ -150,6 +154,7 @@ export const Login = () => {
                       form.setFieldValue(field.name, value)
                     }
                     onBlur={field.onBlur}
+                    data-cy="cpf"
                   />
                 )}
               </Field>
@@ -165,6 +170,7 @@ export const Login = () => {
                 className="styled-input"
                 type="text"
                 placeholder="E-mail"
+                data-cy="email-register"
               />
               <ErrorMessage
                 name="email"
@@ -178,6 +184,7 @@ export const Login = () => {
                 className="styled-input"
                 type="password"
                 placeholder="Senha"
+                data-cy="password-register"
               />
               <ErrorMessage
                 name="password"
@@ -191,6 +198,7 @@ export const Login = () => {
                 className="styled-input"
                 type="password"
                 placeholder="Confirmar senha"
+                data-cy="confirm-password"
               />
               <ErrorMessage
                 name="confirmPassword"
@@ -198,7 +206,7 @@ export const Login = () => {
                 className="error-message"
               />
             </div>
-            <button type="submit" className="styled-btn">
+            <button type="submit" className="styled-btn" data-cy="btn-register">
               Cadastrar
             </button>
           </Form>
