@@ -80,9 +80,7 @@ WSGI_APPLICATION = 'mycommerce.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'default': dj_database_url.parse(config('DATABASE_URL'))
-    }
+    'default': dj_database_url.parse(config('DATABASE_URL'))
 }
 
 # Password validation
